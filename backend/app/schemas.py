@@ -23,3 +23,7 @@ class CarListingResponse(CarListingBase):
 
     class config:
         from_attributes = True
+
+
+class CarListingUpdate(CarListingBase):
+    pass
