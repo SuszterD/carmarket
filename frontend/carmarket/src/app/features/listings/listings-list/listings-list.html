@@ -1,1 +1,14 @@
-<p>listings-list works!</p>
+<h2>Hirdetések</h2>
+
+@if (listings$ | async; as listings) {
+  @for (listing of listings; track listing.id) {
+    <div>
+      <p>
+        <strong>{{ listing.brand }} {{ listing.model }}</strong>
+      </p>
+      <p>Évjárat: {{ listing.year }}</p>
+      <p>Ár: {{ listing.price }}</p>
+      <hr />
+    </div>
+  }
+}
