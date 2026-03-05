@@ -1,1 +1,10 @@
-<p>listing-card works!</p>
+<div class="listing-card">
+  <h3>{{ listing.brand }} {{ listing.model }}</h3>
+
+  <p>Évjárat: {{ listing.year }}</p>
+  <p>Ár: {{ listing.price }} Ft</p>
+  <p>Km. óra állás: {{ listing.mileage }} km</p>
+  <p>Üzemanyag: {{ listing.fuel_type }}</p>
+
+  <p>{{ listing.description }}</p>
+</div>

@@ -4,6 +4,7 @@ import { Observable, map, catchError, startWith, of, delay } from 'rxjs';
 
 import { ListingService } from '../../../services/listing.service';
 import { CarListing } from '../../../models/car-listing.model';
+import { ListingCard } from '../listing-card/listing-card';
 
 interface ListingsState {
   listings: CarListing[];
@@ -14,7 +15,7 @@ interface ListingsState {
 @Component({
   selector: 'app-listings-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ListingCard],
   templateUrl: './listings-list.html',
   styleUrl: './listings-list.css',
 })

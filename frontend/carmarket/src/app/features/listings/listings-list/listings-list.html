@@ -9,11 +9,7 @@
     <p>Nincsenek elérhető hirdetések.</p>
   } @else {
     @for (listing of state.listings; track listing.id) {
-      <div>
-        <strong>{{ listing.brand }} {{ listing.model }}</strong>
-        <p>Évjárat: {{ listing.year }}</p>
-        <p>Ár: {{ listing.price }}</p>
-      </div>
+      <app-listing-card [listing]="listing" />
     }
   }
 }
