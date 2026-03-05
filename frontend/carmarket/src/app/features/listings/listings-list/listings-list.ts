@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, map, catchError, startWith, of, delay } from 'rxjs';
 
 import { ListingService } from '../../../services/listing.service';
 import { CarListing } from '../../../models/car-listing.model';
+
+interface ListingsState {
+  listings: CarListing[];
+  loading: boolean;
+  error: boolean;
+}
 
 @Component({
   selector: 'app-listings-list',
@@ -13,9 +19,29 @@ import { CarListing } from '../../../models/car-listing.model';
   styleUrl: './listings-list.css',
 })
 export class ListingsList {
-  listings$: Observable<CarListing[]>;
+  listingsState$: Observable<ListingsState>;
 
   constructor(private listingService: ListingService) {
-    this.listings$ = this.listingService.getListings();
+    this.listingsState$ = this.listingService.getListings().pipe(
+      map((listings) => ({
+        listings,
+        loading: false,
+        error: false,
+      })),
+
+      startWith({
+        listings: [],
+        loading: true,
+        error: false,
+      }),
+
+      catchError(() =>
+        of({
+          listings: [],
+          loading: false,
+          error: true,
+        }),
+      ),
+    );
   }
 }
