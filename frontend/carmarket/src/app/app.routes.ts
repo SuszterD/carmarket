@@ -1,4 +1,14 @@
 import { Routes } from '@angular/router';
-import { ListingsList } from './features/listings/components/listings-list/listings-list';
 
-export const routes: Routes = [{ path: '', component: ListingsList }];
+export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'listings',
+    pathMatch: 'full',
+  },
+  {
+    path: 'listings',
+    loadComponent: () =>
+      import('./features/listings/pages/listings-page/listings-page').then((m) => m.ListingsPage),
+  },
+];

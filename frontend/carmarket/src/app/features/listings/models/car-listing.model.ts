@@ -9,9 +9,3 @@ export interface CarListing {
   description: string;
   created_at: string;
 }
-
-interface ListingsState {
-  listings: CarListing[];
-  loading: boolean;
-  error: boolean;
-}
