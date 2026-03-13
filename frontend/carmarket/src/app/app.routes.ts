@@ -8,7 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'listings',
-    loadComponent: () =>
-      import('./features/listings/pages/listings-page/listings-page').then((m) => m.ListingsPage),
+    loadChildren: () =>
+      import('./features/listings/listings.routes').then((m) => m.ListingsRoutes),
   },
 ];
