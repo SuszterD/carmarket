@@ -16,7 +16,19 @@ export class ListingService {
     return this.http.get<CarListing[]>(this.apiUrl);
   }
 
+  getListing(id: string): Observable<CarListing> {
+    return this.http.get<CarListing>(`${this.apiUrl}/${id}`);
+  }
+
   createListing(data: CarListing) {
     return this.http.post(this.apiUrl, data);
+  }
+
+  updateListing(id: string, data: CarListing) {
+    return this.http.put<CarListing>(`${this.apiUrl}/${id}`, data);
+  }
+
+  deleteListing(id: string) {
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 }
