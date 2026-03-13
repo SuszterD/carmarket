@@ -8,7 +8,7 @@ import { CarListing } from '../models/car-listing.model';
   providedIn: 'root',
 })
 export class ListingService {
-  private apiUrl = '/api/listings';
+  private apiUrl = 'http://localhost:8000/listings';
 
   constructor(private http: HttpClient) {}
 
