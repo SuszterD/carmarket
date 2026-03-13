@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ListingService } from '../../services/listings.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listing-create-page',
@@ -15,11 +16,20 @@ export class ListingCreatePage {
   constructor(
     private fb: FormBuilder,
     private listingsService: ListingService,
+    private router: Router,
   ) {}
 
   submit() {
-    console.log(this.form. value);
-    this.listingsService.createListing(this.form.value).subscribe();
+    if (this.form.invalid) return;
+
+    this.listingsService.createListing(this.form.value).subscribe({
+      next: () => {
+        this.router.navigate(['/listings']);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 
   ngOnInit() {
