@@ -1,6 +1,6 @@
 <h2>Hirdetés létrehozása</h2>
 
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="submit()">
   <input formControlName="brand" placeholder="Márka" />
   <input formControlName="model" placeholder="Típus" />
   <input formControlName="year" placeholder="Évjárat" />

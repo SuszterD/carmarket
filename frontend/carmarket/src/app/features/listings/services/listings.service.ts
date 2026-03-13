@@ -15,4 +15,8 @@ export class ListingService {
   getListings(): Observable<CarListing[]> {
     return this.http.get<CarListing[]>(this.apiUrl);
   }
+
+  createListing(data: CarListing) {
+    return this.http.post(this.apiUrl, data);
+  }
 }
