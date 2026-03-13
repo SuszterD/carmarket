@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   postgres:
     image: postgres:16
@@ -28,6 +26,16 @@ services:
 
     depends_on:
       - postgres
+
+  frontend:
+    build: ./frontend/carmarket
+    container_name: carmarket_frontend
+
+    ports:
+      - "4200:4200"
+
+    depends_on:
+      - backend
 
 volumes:
   postgres_data:
