@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable, map, catchError, startWith, of, delay } from 'rxjs';
 
-import { ListingService } from '../../../services/listing.service';
-import { CarListing } from '../../../models/car-listing.model';
+import { ListingService } from '../../services/listings.service';
+import { CarListing } from '../../models/car-listing.model';
 import { ListingCard } from '../listing-card/listing-card';
 
 interface ListingsState {

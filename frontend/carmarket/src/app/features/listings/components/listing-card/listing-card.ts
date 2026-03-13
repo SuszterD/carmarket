@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CarListing } from '../../../models/car-listing.model';
+import { CarListing } from '../../models/car-listing.model';
 
 @Component({
   selector: 'app-listing-card',
