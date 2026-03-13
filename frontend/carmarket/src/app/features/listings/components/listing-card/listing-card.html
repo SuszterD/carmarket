@@ -7,4 +7,5 @@
   <p>Üzemanyag: {{ listing.fuel_type }}</p>
 
   <p>{{ listing.description }}</p>
+  <button [routerLink]="['/listings/edit', listing.id]">Hirdetés szerkesztése</button>
 </div>

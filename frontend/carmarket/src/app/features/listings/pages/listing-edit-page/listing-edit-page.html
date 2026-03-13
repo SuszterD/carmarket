@@ -1,1 +1,12 @@
-<p>listing-edit-page works!</p>
+<h2>Hirdetés szerkesztése</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <input formControlName="brand" placeholder="Márka" />
+  <input formControlName="model" placeholder="Típus" />
+  <input formControlName="year" placeholder="Évjárat" />
+  <input formControlName="price" placeholder="Ár" />
+  <input formControlName="mileage" placeholder="Km óra állás" />
+  <input formControlName="fuel_type" placeholder="Üzemanyag típus" />
+  <textarea formControlName="description"></textarea>
+  <button type="submit">Hirdetés frissítése</button>
+</form>
