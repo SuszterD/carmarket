@@ -1,1 +1,12 @@
-<p>listing-create-page works!</p>
+<h2>Hirdetés létrehozása</h2>
+
+<form [formGroup]="form">
+  <input formControlName="brand" placeholder="Márka" />
+  <input formControlName="model" placeholder="Típus" />
+  <input formControlName="year" placeholder="Évjárat" />
+  <input formControlName="price" placeholder="Ár" />
+  <input formControlName="mileage" placeholder="Km óra állás" />
+  <input formControlName="fuel_type" placeholder="Üzemanyag típus" />
+  <textarea formControlName="description"></textarea>
+  <button type="submit">Hirdetés feltöltése</button>
+</form>
