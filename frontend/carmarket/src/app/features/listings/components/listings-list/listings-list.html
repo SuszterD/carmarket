@@ -7,7 +7,7 @@
     <p>Nincsenek elérhető hirdetések.</p>
   } @else {
     @for (listing of state.listings; track listing.id) {
-      <app-listing-card [listing]="listing" />
+      <app-listing-card [listing]="listing" (onDelete)="onListingDelete()" />
     }
   }
 }

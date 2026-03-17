@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, map, catchError, startWith, of, delay } from 'rxjs';
+import { Observable, map, catchError, startWith, of, Subject, switchMap } from 'rxjs';
 
 import { ListingService } from '../../services/listings.service';
 import { CarListing } from '../../models/car-listing.model';
@@ -20,29 +20,40 @@ interface ListingsState {
   styleUrl: './listings-list.css',
 })
 export class ListingsList {
+  private refresh$ = new Subject<void>();
   listingsState$: Observable<ListingsState>;
 
   constructor(private listingService: ListingService) {
-    this.listingsState$ = this.listingService.getListings().pipe(
-      map((listings) => ({
-        listings,
-        loading: false,
-        error: false,
-      })),
+    this.listingsState$ = this.refresh$.pipe(
+      startWith(void 0),
+      switchMap(() =>
+        this.listingService.getListings().pipe(
+          map((listings) => ({
+            listings,
+            loading: false,
+            error: false,
+          })),
 
-      startWith({
-        listings: [],
-        loading: true,
-        error: false,
-      }),
+          startWith({
+            listings: [],
+            loading: true,
+            error: false,
+          }),
 
-      catchError(() =>
-        of({
-          listings: [],
-          loading: false,
-          error: true,
-        }),
+          catchError(() =>
+            of({
+              listings: [],
+              loading: false,
+              error: true,
+            }),
+          ),
+        ),
       ),
     );
+  }
+
+  onListingDelete() {
+    window.alert('A hirdetés törölve.');
+    this.refresh$.next();
   }
 }
