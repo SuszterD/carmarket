@@ -8,7 +8,7 @@ from ..database import get_db
 router = APIRouter(prefix="/listings", tags=["Listings"])
 
 
-@router.post("/", response_model=schemas.CarListingResponse)
+@router.post("", response_model=schemas.CarListingResponse)
 def create_listing(
     listing: schemas.CarListingCreate,
     db: Session = Depends(get_db),
@@ -20,7 +20,7 @@ def create_listing(
     return db_listing
 
 
-@router.get("/", response_model=List[schemas.CarListingResponse])
+@router.get("", response_model=List[schemas.CarListingResponse])
 def get_listings(db: Session = Depends(get_db)):
     return db.query(models.CarListing).all()
 

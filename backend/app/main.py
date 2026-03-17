@@ -1,10 +1,9 @@
 from fastapi import FastAPI
 from .database import engine, Base
 from .routers import listings
-from . import models
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="CarMarket API")
+app = FastAPI(redirect_slashes=False, title="CarMarket API")
 origins = [
     "http://localhost:4200",
 ]
