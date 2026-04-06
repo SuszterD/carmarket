@@ -1,3 +1,7 @@
+body {
+  background-color: #857ee4;
+}
+
 button {
   padding: 10px 16px;
   border-radius: 6px;
@@ -5,6 +9,7 @@ button {
   color: white;
   transition: 0.2s;
   cursor: pointer;
+  font-size: 15px;
 }
 
 button:disabled {

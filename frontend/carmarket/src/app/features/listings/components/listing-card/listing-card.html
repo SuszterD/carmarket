@@ -1,12 +1,19 @@
 <div class="listing-card">
   <h3>{{ listing.brand }} {{ listing.model }}</h3>
 
-  <p>Évjárat: {{ listing.year }}</p>
-  <p>Ár: {{ listing.price }} Ft</p>
-  <p>Km. óra állás: {{ listing.mileage }} km</p>
-  <p>Üzemanyag: {{ listing.fuel_type }}</p>
+  <div class="listing-info">
+    <span>Évjárat: {{ listing.year }}</span>
+    <span>Ár: {{ listing.price }} Ft</span>
+    <span>Km. óra állás: {{ listing.mileage }} km</span>
+    <span>Üzemanyag: {{ listing.fuel_type }}</span>
+  </div>
 
-  <p>{{ listing.description }}</p>
-  <button [routerLink]="['/listings/edit', listing.id]">Hirdetés szerkesztése</button>
-  <button type="button" class="cancel-button" (click)="deleteListing()">Hirdetés törlése</button>
+  <p class="description">
+    {{ listing.description }}
+  </p>
+  
+  <div class="card-buttons">
+    <button [routerLink]="['/listings/edit', listing.id]">Hirdetés szerkesztése</button>
+    <button type="button" class="cancel-button" (click)="deleteListing()">Hirdetés törlése</button>
+  </div>
 </div>
