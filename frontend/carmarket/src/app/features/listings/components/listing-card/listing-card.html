@@ -8,5 +8,5 @@
 
   <p>{{ listing.description }}</p>
   <button [routerLink]="['/listings/edit', listing.id]">Hirdetés szerkesztése</button>
-  <button (click)="deleteListing()">Hirdetés törlése</button>
+  <button type="button" class="cancel-button" (click)="deleteListing()">Hirdetés törlése</button>
 </div>

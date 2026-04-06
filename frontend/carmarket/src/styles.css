@@ -1,1 +1,27 @@
-/* You can add global styles to this file, and also import other style files */
+button {
+  padding: 10px, 16px;
+  border-radius: 6px;
+  background-color: blue;
+  color: white;
+  transition: 0.2s;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: grey;
+  pointer-events: none;
+}
+
+button:hover {
+  background-color: rgb(152, 152, 225);
+  color: black;
+}
+
+.cancel-button {
+  background-color: red;
+
+  &:hover {
+    background-color: rgb(222, 124, 124);
+    color: black;
+  }
+}
