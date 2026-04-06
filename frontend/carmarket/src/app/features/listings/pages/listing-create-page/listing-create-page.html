@@ -8,6 +8,6 @@
   <input formControlName="mileage" placeholder="Km óra állás" />
   <input formControlName="fuel_type" placeholder="Üzemanyag típus" />
   <textarea formControlName="description"></textarea>
-  <button type="submit">Hirdetés feltöltése</button>
+  <button type="submit" [disabled]="form.invalid">Hirdetés feltöltése</button>
   <button type="button" (click)="goBack()">Vissza</button>
 </form>

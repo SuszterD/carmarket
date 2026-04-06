@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -25,13 +25,13 @@ export class ListingEditPage {
 
   ngOnInit() {
     this.form = this.fb.group({
-      brand: [''],
-      model: [''],
-      year: [''],
-      price: [''],
-      mileage: [''],
-      fuel_type: [''],
-      description: [''],
+      brand: ['', Validators.required],
+      model: ['', Validators.required],
+      year: ['', Validators.required],
+      price: ['', Validators.required],
+      mileage: ['', Validators.required],
+      fuel_type: ['', Validators.required],
+      description: ['', Validators.required],
     });
 
     const id = this.route.snapshot.paramMap.get('id');
