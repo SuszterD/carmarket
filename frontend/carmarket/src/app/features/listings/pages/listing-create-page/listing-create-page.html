@@ -1,13 +1,38 @@
 <h2>Hirdetés létrehozása</h2>
 
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <input formControlName="brand" placeholder="Márka" />
-  <input formControlName="model" placeholder="Típus" />
-  <input formControlName="year" placeholder="Évjárat" />
-  <input formControlName="price" placeholder="Ár" />
-  <input formControlName="mileage" placeholder="Km óra állás" />
-  <input formControlName="fuel_type" placeholder="Üzemanyag típus" />
-  <textarea formControlName="description"></textarea>
-  <button type="submit" [disabled]="form.invalid">Hirdetés feltöltése</button>
-  <button type="button" class="cancel-button" (click)="goBack()">Vissza</button>
+  <div class="form-fields">
+    <div class="form-row">
+      <label>Márka</label>
+      <input class="with-space" formControlName="brand" placeholder="Márka" />
+    </div>
+    <div class="form-row">
+      <label>Típus</label>
+      <input class="with-space" formControlName="model" placeholder="Típus" />
+    </div>
+    <div class="form-row">
+      <label>Évjárat</label>
+      <input class="with-space" formControlName="year" placeholder="Évjárat" />
+    </div>
+    <div class="form-row">
+      <label>Ár</label>
+      <input class="with-space" formControlName="price" placeholder="Ár" />
+    </div>
+    <div class="form-row">
+      <label>Km óra állás</label>
+      <input class="with-space" formControlName="mileage" placeholder="Km óra állás" />
+    </div>
+    <div class="form-row">
+      <label>Üzemanyag típus</label>
+      <input class="with-space" formControlName="fuel_type" placeholder="Üzemanyag típus" />
+    </div>
+    <div class="form-row">
+      <label>Leírás</label>
+      <textarea class="with-space" formControlName="description"></textarea>
+    </div>
+  </div>
+  <div class="form-buttons">
+    <button type="submit" [disabled]="form.invalid">Hirdetés feltöltése</button>
+    <button type="button" class="cancel-button" (click)="goBack()">Vissza</button>
+  </div>
 </form>
