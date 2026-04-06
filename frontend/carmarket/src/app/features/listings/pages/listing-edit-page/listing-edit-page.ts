@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { ListingService } from '../../services/listings.service';
 
@@ -19,7 +20,10 @@ export class ListingEditPage {
     private listingService: ListingService,
     private route: ActivatedRoute,
     private router: Router,
-  ) {
+    private location: Location,
+  ) {}
+
+  ngOnInit() {
     this.form = this.fb.group({
       brand: [''],
       model: [''],
@@ -29,9 +33,7 @@ export class ListingEditPage {
       fuel_type: [''],
       description: [''],
     });
-  }
 
-  ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) return;
@@ -42,6 +44,11 @@ export class ListingEditPage {
   }
 
   submit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
     const id = this.route.snapshot.paramMap.get('id');
 
     if (!id) return;
@@ -49,5 +56,9 @@ export class ListingEditPage {
     this.listingService.updateListing(id, this.form.value).subscribe(() => {
       this.router.navigate(['/listings']);
     });
+  }
+
+  goBack() {
+    this.location.back();
   }
 }
