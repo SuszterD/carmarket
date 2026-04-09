@@ -44,6 +44,7 @@ jobs:
       - run: |
           cd backend
           source venv/bin/activate
+          export PYTHONPATH=.
           pytest
 
   build-and-push:
