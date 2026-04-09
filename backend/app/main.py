@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI
 from .database import engine, Base
 from .routers import listings
@@ -16,7 +17,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-Base.metadata.create_all(bind=engine)
+if os.getenv("RUN_DB_INIT") == "true":
+  Base.metadata.create_all(bind=engine)
 
 app.include_router(listings.router)
 
@@ -24,3 +26,8 @@ app.include_router(listings.router)
 @app.get("/")
 def root():
     return {"message": "CarMarket API is running"}
+
+
+@app.get("/health")
+def health_check():
+    return {"status": "ok", "service": "carmarket-backend"}
