@@ -15,6 +15,13 @@ brands_models = {
 
 fuel_types = ["Benzin", "Gázolaj", "Hybrid"]
 
+description_choices = [
+    "Nem dohányzó tulajdonostól",
+    "Megkímélt állapotú",
+    "Jégkár érte",
+    "Első tulajdonostól",
+]
+
 db = SessionLocal()
 
 db.query(models.CarListing).delete()
@@ -31,10 +38,10 @@ for x in range(size):
         brand=brand,
         model=model,
         year=random.randint(2010, 2025),
-        price=random.randint(5000000, 25000000),
+        price=random.randrange(5000000, 25000000, 100000),
         mileage=random.randint(20000, 250000),
         fuel_type=random.choice(fuel_types),
-        description="Ide kerül a leírás",
+        description=random.choice(description_choices),
         created_at=datetime.utcnow(),
     )
 

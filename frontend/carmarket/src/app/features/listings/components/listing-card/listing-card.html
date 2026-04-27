@@ -3,15 +3,15 @@
 
   <div class="listing-info">
     <span>Évjárat: {{ listing.year }}</span>
-    <span>Ár: {{ listing.price }} Ft</span>
-    <span>Km. óra állás: {{ listing.mileage }} km</span>
+    <span>Ár: {{ listing.price | number: '1.0-0' }} Ft</span>
+    <span>Km. óra állás: {{ listing.mileage | number: '1.0-0' }} km</span>
     <span>Üzemanyag: {{ listing.fuel_type }}</span>
   </div>
 
   <p class="description">
     {{ listing.description }}
   </p>
-  
+
   <div class="card-buttons">
     <button [routerLink]="['/listings/edit', listing.id]">Hirdetés szerkesztése</button>
     <button type="button" class="cancel-button" (click)="deleteListing()">Hirdetés törlése</button>
