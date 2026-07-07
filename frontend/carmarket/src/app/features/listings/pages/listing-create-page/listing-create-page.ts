@@ -35,7 +35,7 @@ export class ListingCreatePage {
 
   submit() {
     if (this.form.invalid) {
-      this.form.markAllAsTouched;
+      this.form.markAllAsTouched();
       return;
     }
 
