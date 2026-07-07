@@ -1,16 +1,24 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict, Field
 from datetime import datetime
-from typing import Optional
+from enum import Enum
+
+CURRENT_YEAR = datetime.now().year
+
+
+class FuelType(str, Enum):
+    PETROL = "Benzin"
+    GAS = "Gázolaj"
+    HYBRID = "Hybrid"
 
 
 class CarListingBase(BaseModel):
-    brand: str
-    model: str
-    year: int
-    price: int
-    mileage: int
-    fuel_type: str
-    description: str
+    brand: str = Field(min_length=1, max_length=50)
+    model: str = Field(min_length=1, max_length=50)
+    year: int = Field(ge=1900, le=CURRENT_YEAR + 1)
+    price: int = Field(ge=0)
+    mileage: int = Field(ge=0)
+    fuel_type: FuelType
+    description: str = Field(min_length=1, max_length=500)
 
 
 class CarListingCreate(CarListingBase):
@@ -21,8 +29,7 @@ class CarListingResponse(CarListingBase):
     id: str
     created_at: datetime
 
-    class config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class CarListingUpdate(CarListingBase):
