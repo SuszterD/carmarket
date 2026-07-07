@@ -8,7 +8,7 @@ from ..database import get_db
 router = APIRouter(prefix="/listings", tags=["Listings"])
 
 
-@router.post("", response_model=schemas.CarListingResponse)
+@router.post("", response_model=schemas.CarListingResponse, status_code=201)
 def create_listing(
     listing: schemas.CarListingCreate,
     db: Session = Depends(get_db),
@@ -49,7 +49,7 @@ def update_listing(
     if not listing:
         raise HTTPException(status_code=404, detail="Listing not found")
 
-    for key, value in updated_data.model_dump().items():
+    for key, value in updated_data.model_dump(exclude_unset=True).items():
         setattr(listing, key, value)
 
     db.commit()
@@ -70,4 +70,4 @@ def delete_listing(listing_id: str, db: Session = Depends(get_db)):
     db.delete(listing)
     db.commit()
 
-    return {"detail": "Listing deleted succesfully"}
+    return None
