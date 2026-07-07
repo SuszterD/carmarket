@@ -46,6 +46,8 @@ jobs:
           source venv/bin/activate
           export PYTHONPATH=.
           pytest
+        env:
+          DATABASE_URL: postgresql://user:password@localhost:5432/test_db
 
   build-and-push:
     runs-on: ubuntu-latest
