@@ -49,7 +49,7 @@ def update_listing(
     if not listing:
         raise HTTPException(status_code=404, detail="Listing not found")
 
-    for key, value in updated_data.model_dump().items():
+    for key, value in updated_data.model_dump(exclude_unset=True).items():
         setattr(listing, key, value)
 
     db.commit()

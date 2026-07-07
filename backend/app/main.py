@@ -9,9 +9,6 @@ from .middleware.setup import setup_middlewares
 setup_logging()
 
 app = FastAPI(redirect_slashes=False, title="CarMarket API")
-origins = [
-    "http://localhost:4200",
-]
 
 
 setup_middlewares(app)
