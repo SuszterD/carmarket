@@ -1,4 +1,5 @@
 import random
+import argparse
 from uuid import uuid4
 from datetime import datetime
 
@@ -22,33 +23,52 @@ description_choices = [
     "Első tulajdonostól",
 ]
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--wipe", action="store_true")
+args = parser.parse_args()
+
 db = SessionLocal()
 
-db.query(models.CarListing).delete()
-db.commit()
 
-size = 50
+def seed():
+    size = 50
 
-for x in range(size):
-    brand = random.choice(list(brands_models.keys()))
-    model = random.choice(brands_models[brand])
+    for x in range(size):
+        brand = random.choice(list(brands_models.keys()))
+        model = random.choice(brands_models[brand])
 
-    listing = models.CarListing(
-        id=str(uuid4()),
-        brand=brand,
-        model=model,
-        year=random.randint(2010, 2025),
-        price=random.randrange(5000000, 25000000, 100000),
-        mileage=random.randint(20000, 250000),
-        fuel_type=random.choice(fuel_types),
-        description=random.choice(description_choices),
-        created_at=datetime.utcnow(),
-    )
+        listing = models.CarListing(
+            id=str(uuid4()),
+            brand=brand,
+            model=model,
+            year=random.randint(2010, 2025),
+            price=random.randrange(5000000, 25000000, 100000),
+            mileage=random.randint(20000, 250000),
+            fuel_type=random.choice(fuel_types),
+            description=random.choice(description_choices),
+            created_at=datetime.utcnow(),
+        )
 
-    db.add(listing)
+        db.add(listing)
+
+    db.commit()
+    db.close()
+
+    print(f"{size} teszt hirdetés sikeresen létrehozva")
 
 
-db.commit()
-db.close()
+existing_count = db.query(models.CarListing).count()
 
-print(f"{size} teszt hirdetés sikeresen létrehozva")
+if existing_count > 0 and args.wipe:
+
+    db.query(models.CarListing).delete()
+    db.commit()
+
+    seed()
+
+elif existing_count > 0 and not args.wipe:
+    print("Data already exists, skipping (use --wipe to force reseed).")
+
+else:
+
+    seed()
