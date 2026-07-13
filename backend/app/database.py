@@ -1,18 +1,10 @@
-import os
-from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base, Session
 from typing import Generator
-from pathlib import Path
 
-env_path = Path(__file__).resolve().parent.parent / ".env.dev"
+from .core.config import settings
 
-load_dotenv(env_path)
-
-DATABASE_URL = os.getenv("DATABASE_URL")
-assert DATABASE_URL is not None
-
-engine = create_engine(DATABASE_URL)
+engine = create_engine(settings.database_url)
 
 
 SessionLocal = sessionmaker(
