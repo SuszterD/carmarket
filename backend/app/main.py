@@ -16,11 +16,6 @@ app.include_router(listings.router)
 app.include_router(auth.router)
 
 
-@app.get("/")
-def root():
-    return {"message": "CarMarket API is running"}
-
-
 @app.get("/health")
 def health_check():
     return {"status": "ok", "service": "carmarket-backend"}
