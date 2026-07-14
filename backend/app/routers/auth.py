@@ -4,7 +4,12 @@ from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
 from .. import models, schemas
-from ..core.security import hash_password, verify_password, create_access_token
+from ..core.security import (
+    get_current_user,
+    hash_password,
+    verify_password,
+    create_access_token,
+)
 from ..database import get_db
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
@@ -49,3 +54,9 @@ def login(
     access_token = create_access_token({"sub": user.username})
 
     return schemas.Token(access_token=access_token, token_type="bearer")
+
+
+@router.get("/me", response_model=schemas.UserResponse)
+def get_me(current_user: models.User = Depends(get_current_user)):
+
+    return current_user
