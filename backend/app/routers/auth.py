@@ -60,3 +60,11 @@ def login(
 def get_me(current_user: models.User = Depends(get_current_user)):
 
     return current_user
+
+
+@router.post("/refresh", response_model=schemas.Token)
+def refresh_token(current_user: models.User = Depends(get_current_user)):
+
+    access_token = create_access_token({"sub": current_user.username})
+
+    return schemas.Token(access_token=access_token, token_type="bearer")

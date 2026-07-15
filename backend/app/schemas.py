@@ -26,6 +26,7 @@ class CarListingCreate(CarListingBase):
 
 
 class CarListingResponse(CarListingBase):
+    user_id: str
     id: str
     created_at: datetime
 

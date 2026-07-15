@@ -122,3 +122,46 @@ def test_get_me_invalid_token(test_db):
 
     assert response.status_code == 401
     assert response.json()["detail"] == "Could not validate credentials"
+
+
+def test_refresh_token_success(test_db):
+    client.post(
+        "/auth/register",
+        json={
+            "username": "testuser",
+            "email": "testuser@example.com",
+            "password": "testpassword",
+        },
+    )
+
+    login_response = client.post(
+        "/auth/login",
+        data={"username": "testuser", "password": "testpassword"},
+    )
+
+    token = login_response.json()["access_token"]
+
+    response = client.post(
+        "/auth/refresh", headers={"Authorization": f"Bearer {token}"}
+    )
+
+    assert response.status_code == 200
+    assert "access_token" in response.json()
+    assert response.json()["token_type"] == "bearer"
+
+
+def test_refresh_token_no_token(test_db):
+    response = client.post("/auth/refresh")
+
+    assert response.status_code == 401
+    assert response.json()["detail"] == "Not authenticated"
+
+
+def test_refresh_token_invalid_token(test_db):
+    response = client.post(
+        "/auth/refresh",
+        headers={"Authorization": "Bearer wrong_token"},
+    )
+
+    assert response.status_code == 401
+    assert response.json()["detail"] == "Could not validate credentials"
