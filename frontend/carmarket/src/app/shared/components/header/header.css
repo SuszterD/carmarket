@@ -1,0 +1,20 @@
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background-color: white;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  color: #857ee4;
+  text-decoration: none;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}

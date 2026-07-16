@@ -4,6 +4,8 @@ import { CarListing } from '../../models/car-listing.model';
 import { RouterLink } from '@angular/router';
 
 import { ListingService } from '../../services/listings.service';
+import { Auth, User } from '../../../../core/auth.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-listing-card',
@@ -16,7 +18,14 @@ export class ListingCard {
   @Input() listing!: CarListing;
   @Output() onDelete: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private listingService: ListingService) {}
+  currentUser$: Observable<User | null>;
+
+  constructor(
+    private listingService: ListingService,
+    private authService: Auth,
+  ) {
+    this.currentUser$ = this.authService.currentUser$;
+  }
 
   deleteListing() {
     const confirmed = window.confirm('Biztosan törölni szeretnéd ezt a hirdetést?');
