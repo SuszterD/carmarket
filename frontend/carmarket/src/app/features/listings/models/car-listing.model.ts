@@ -1,5 +1,6 @@
 export interface CarListing {
   id: string;
+  user_id: string;
   brand: string;
   model: string;
   year: number;

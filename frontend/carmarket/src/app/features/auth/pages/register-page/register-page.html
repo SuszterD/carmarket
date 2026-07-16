@@ -1,0 +1,26 @@
+<h2>Regisztáció</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="form-fields">
+    <div class="form-row">
+      <label>Felhasználónév</label>
+      <input class="with-space" formControlName="username" placeholder="Felhasználónév" />
+    </div>
+    <div class="form-row">
+      <label>Email</label>
+      <input class="with-space" formControlName="email" placeholder="Email" />
+    </div>
+    <div class="form-row">
+      <label>Jelszó</label>
+      <input class="with-space" type="password" formControlName="password" placeholder="Jelszó" />
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <p class="error-message">{{ errorMessage() }}</p>
+  }
+
+  <div class="form-buttons">
+    <button type="submit" [disabled]="form.invalid">Regisztáció</button>
+  </div>
+</form>

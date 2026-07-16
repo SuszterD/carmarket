@@ -11,9 +11,14 @@
   <p class="description">
     {{ listing.description }}
   </p>
-
-  <div class="card-buttons">
-    <button [routerLink]="['/listings/edit', listing.id]">Hirdetés szerkesztése</button>
-    <button type="button" class="cancel-button" (click)="deleteListing()">Hirdetés törlése</button>
-  </div>
+  @if (currentUser$ | async; as currentUser) {
+    @if (currentUser.id === listing.user_id) {
+      <div class="card-buttons">
+        <button [routerLink]="['/listings/edit', listing.id]">Hirdetés szerkesztése</button>
+        <button type="button" class="cancel-button" (click)="deleteListing()">
+          Hirdetés törlése
+        </button>
+      </div>
+    }
+  }
 </div>

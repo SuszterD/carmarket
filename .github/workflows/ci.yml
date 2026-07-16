@@ -48,6 +48,7 @@ jobs:
           pytest
         env:
           DATABASE_URL: postgresql://user:password@localhost:5432/test_db
+          SECRET_KEY: ci-test-secret-key-not-for-production
 
   build-and-push:
     runs-on: ubuntu-latest

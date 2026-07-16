@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 
+from ..core.security import get_current_user
+
 from .. import models, schemas
 from ..database import get_db
 
@@ -12,8 +14,9 @@ router = APIRouter(prefix="/listings", tags=["Listings"])
 def create_listing(
     listing: schemas.CarListingCreate,
     db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
 ):
-    db_listing = models.CarListing(**listing.model_dump())
+    db_listing = models.CarListing(**listing.model_dump(), user_id=current_user.id)
     db.add(db_listing)
     db.commit()
     db.refresh(db_listing)
@@ -41,6 +44,7 @@ def update_listing(
     listing_id: str,
     updated_data: schemas.CarListingUpdate,
     db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
 ):
     listing = (
         db.query(models.CarListing).filter(models.CarListing.id == listing_id).first()
@@ -48,6 +52,11 @@ def update_listing(
 
     if not listing:
         raise HTTPException(status_code=404, detail="Listing not found")
+
+    if listing.user_id != current_user.id:
+        raise HTTPException(
+            status_code=403, detail="Not authorized to modify this listing"
+        )
 
     for key, value in updated_data.model_dump(exclude_unset=True).items():
         setattr(listing, key, value)
@@ -59,13 +68,22 @@ def update_listing(
 
 
 @router.delete("/{listing_id}", status_code=204)
-def delete_listing(listing_id: str, db: Session = Depends(get_db)):
+def delete_listing(
+    listing_id: str,
+    db: Session = Depends(get_db),
+    current_user: models.User = Depends(get_current_user),
+):
     listing = (
         db.query(models.CarListing).filter(models.CarListing.id == listing_id).first()
     )
 
     if not listing:
         raise HTTPException(status_code=404, detail="Listing not found")
+
+    if listing.user_id != current_user.id:
+        raise HTTPException(
+            status_code=403, detail="Not authorized to delete this listing"
+        )
 
     db.delete(listing)
     db.commit()

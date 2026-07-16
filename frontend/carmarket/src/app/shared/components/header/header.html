@@ -1,0 +1,15 @@
+<header class="app-header">
+  <a routerLink="/listings" class="logo">CarMarket</a>
+
+  @if (currentUser$ | async; as currentUser) {
+    <div class="header-actions">
+      <span>{{ currentUser.username }}</span>
+      <button type="button" (click)="logout()">Kijelentkezés</button>
+    </div>
+  } @else {
+    <div class="header-actions">
+      <a routerLink="/login">Bejelentkezés</a>
+      <a routerLink="/register">Regisztráció</a>
+    </div>
+  }
+</header>
