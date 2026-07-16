@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 
 export interface Token {
   access_token: string;
@@ -24,7 +25,7 @@ export class Auth {
   currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    if (this.getToken()) {
+    if (this.isLoggedIn()) {
       this.loadCurrentUser();
     }
   }
@@ -65,5 +66,20 @@ export class Auth {
 
   private loadCurrentUser(): void {
     this.getCurrentUser().subscribe((user) => this.currentUserSubject.next(user));
+  }
+
+  isLoggedIn(): boolean {
+    const token = this.getToken();
+
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const decoded = jwtDecode<{ exp: number }>(token);
+      return decoded.exp * 1000 > Date.now();
+    } catch {
+      return false;
+    }
   }
 }

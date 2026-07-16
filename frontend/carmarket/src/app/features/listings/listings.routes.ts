@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '../../core/auth-guard';
 
 export const ListingsRoutes: Routes = [
   {
@@ -7,11 +8,13 @@ export const ListingsRoutes: Routes = [
   },
   {
     path: 'new',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./pages/listing-create-page/listing-create-page').then((m) => m.ListingCreatePage),
   },
   {
     path: 'edit/:id',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('./pages/listing-edit-page/listing-edit-page').then((m) => m.ListingEditPage),
   },
