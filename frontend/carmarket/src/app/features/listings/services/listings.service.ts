@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { CarListing } from '../models/car-listing.model';
+import { CarListing, PaginatedListings } from '../models/car-listing.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,8 @@ export class ListingService {
 
   constructor(private http: HttpClient) {}
 
-  getListings(): Observable<CarListing[]> {
-    return this.http.get<CarListing[]>(this.apiUrl);
+  getListings(): Observable<PaginatedListings> {
+    return this.http.get<PaginatedListings>(this.apiUrl);
   }
 
   getListing(id: string): Observable<CarListing> {

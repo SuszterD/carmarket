@@ -10,3 +10,10 @@ export interface CarListing {
   description: string;
   created_at: string;
 }
+
+export interface PaginatedListings {
+  items: CarListing[];
+  total: number;
+  page: number;
+  page_size: number;
+}

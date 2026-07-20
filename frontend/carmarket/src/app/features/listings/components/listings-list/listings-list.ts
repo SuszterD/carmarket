@@ -28,8 +28,8 @@ export class ListingsList {
       startWith(void 0),
       switchMap(() =>
         this.listingService.getListings().pipe(
-          map((listings) => ({
-            listings,
+          map((response) => ({
+            listings: response.items,
             loading: false,
             error: false,
           })),
