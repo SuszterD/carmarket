@@ -37,23 +37,25 @@ def test_db():
 
 @pytest.fixture()
 def test_user(test_db):
-    client.post(
-        "/auth/register",
-        json={
-            "username": "testuser",
-            "email": "testuser@example.com",
-            "password": "testpassword",
-        },
-    )
+    def _create_user(username):
+        client.post(
+            "/auth/register",
+            json={
+                "username": f"{username}",
+                "email": f"{username}testuser@example.com",
+                "password": "testpassword",
+            },
+        )
+        response = client.post(
+            "/auth/login",
+            data={
+                "username": f"{username}",
+                "password": "testpassword",
+            },
+        )
 
-    login_response = client.post(
-        "/auth/login",
-        data={
-            "username": "testuser",
-            "password": "testpassword",
-        },
-    )
+        token = response.json()["access_token"]
 
-    token = login_response.json()["access_token"]
+        return {"Authorization": f"Bearer {token}"}
 
-    return {"Authorization": f"Bearer {token}"}
+    return _create_user
