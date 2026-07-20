@@ -1,9 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from typing import List
 
 from ..core.security import get_current_user
-
 from .. import models, schemas
 from ..database import get_db
 
@@ -20,12 +18,27 @@ def create_listing(
     db.add(db_listing)
     db.commit()
     db.refresh(db_listing)
+
     return db_listing
 
 
-@router.get("", response_model=List[schemas.CarListingResponse])
-def get_listings(db: Session = Depends(get_db)):
-    return db.query(models.CarListing).all()
+@router.get("", response_model=schemas.PaginatedListingsResponse)
+def get_listings(
+    page: int = Query(default=1, ge=1),
+    page_size: schemas.PageSize = Query(default=schemas.PageSize.SMALL),
+    db: Session = Depends(get_db),
+):
+    skip = (page - 1) * page_size
+    total = db.query(models.CarListing).count()
+
+    response = {
+        "items": db.query(models.CarListing).offset(skip).limit(page_size).all(),
+        "total": total,
+        "page": page,
+        "page_size": page_size,
+    }
+
+    return response
 
 
 @router.get("/{listing_id}", response_model=schemas.CarListingResponse)
@@ -36,6 +49,7 @@ def get_listing(listing_id: str, db: Session = Depends(get_db)):
 
     if not listing:
         raise HTTPException(status_code=404, detail="Listing not found")
+
     return listing
 
 
