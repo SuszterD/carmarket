@@ -202,3 +202,55 @@ def test_delete_listing_wrong_owner(test_db):
     assert response.status_code == 403
     assert response.json()["detail"] == "Not authorized to delete this listing"
     assert verify_response.status_code == 200
+
+
+def test_pagination_default_values(test_db, test_user):
+    listing_data = {
+        "brand": "string",
+        "model": "string",
+        "year": 1900,
+        "price": 0,
+        "mileage": 0,
+        "fuel_type": "Benzin",
+        "description": "string",
+    }
+
+    for _ in range(40):
+        client.post("/listings", json=listing_data, headers=test_user)
+
+    response = client.get("/listings")
+
+    assert response.status_code == 200
+    assert response.json()["total"] == 40
+    assert response.json()["page"] == 1
+    assert response.json()["page_size"] == 25
+    assert len(response.json()["items"]) == 25
+
+
+def test_pagination_page_two(test_db, test_user):
+    listing_data = {
+        "brand": "string",
+        "model": "string",
+        "year": 1900,
+        "price": 0,
+        "mileage": 0,
+        "fuel_type": "Benzin",
+        "description": "string",
+    }
+    for _ in range(60):
+        client.post("/listings", json=listing_data, headers=test_user)
+
+    response = client.get("/listings", params={"page": 2, "page_size": 50})
+
+    assert response.status_code == 200
+    assert response.json()["total"] == 60
+    assert response.json()["page"] == 2
+    assert response.json()["page_size"] == 50
+    assert len(response.json()["items"]) == 10
+
+
+def test_pagination_invalid_page_size():
+    response = client.get("/listings", params={"page_size": 100})
+
+    assert response.status_code == 422
+    assert response.json()["detail"][0]["loc"] == ["query", "page_size"]
