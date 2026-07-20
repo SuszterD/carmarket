@@ -27,12 +27,50 @@ def get_listings(
     page: int = Query(default=1, ge=1),
     page_size: schemas.PageSize = Query(default=schemas.PageSize.SMALL),
     db: Session = Depends(get_db),
+    brand: str | None = Query(default=None),
+    fuel_type: schemas.FuelType | None = Query(default=None),
+    year_min: int | None = Query(default=None, ge=1900, le=schemas.CURRENT_YEAR + 1),
+    year_max: int | None = Query(default=None, ge=1900, le=schemas.CURRENT_YEAR + 1),
+    price_min: int | None = Query(default=None, ge=0),
+    price_max: int | None = Query(default=None, ge=0),
 ):
+    if year_min is not None and year_max is not None:
+        if year_min > year_max:
+            raise HTTPException(
+                status_code=422, detail="year_min cannot be greater than year_max"
+            )
+
+    if price_min is not None and price_max is not None:
+        if price_min > price_max:
+            raise HTTPException(
+                status_code=422, detail="price_min cannot be greater than price_max"
+            )
+
+    query = db.query(models.CarListing)
+
+    if brand is not None:
+        query = query.filter(models.CarListing.brand.ilike(f"%{brand}%"))
+
+    if fuel_type is not None:
+        query = query.filter(models.CarListing.fuel_type == fuel_type)
+
+    if year_min is not None:
+        query = query.filter(models.CarListing.year >= year_min)
+
+    if year_max is not None:
+        query = query.filter(models.CarListing.year <= year_max)
+
+    if price_min is not None:
+        query = query.filter(models.CarListing.price >= price_min)
+
+    if price_max is not None:
+        query = query.filter(models.CarListing.price <= price_max)
+
     skip = (page - 1) * page_size
-    total = db.query(models.CarListing).count()
+    total = query.count()
 
     response = {
-        "items": db.query(models.CarListing).offset(skip).limit(page_size).all(),
+        "items": query.offset(skip).limit(page_size).all(),
         "total": total,
         "page": page,
         "page_size": page_size,
