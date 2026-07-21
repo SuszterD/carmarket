@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { ListingService } from '../../services/listings.service';
+import { FUEL_TYPES } from '../../models/car-listing.model';
 
 @Component({
   selector: 'app-listing-edit-page',
@@ -14,6 +15,7 @@ import { ListingService } from '../../services/listings.service';
 })
 export class ListingEditPage {
   form!: FormGroup;
+  fuelTypes = FUEL_TYPES;
 
   constructor(
     private fb: FormBuilder,

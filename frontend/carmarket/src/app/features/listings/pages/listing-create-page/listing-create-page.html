@@ -24,7 +24,12 @@
     </div>
     <div class="form-row">
       <label>Üzemanyag típus</label>
-      <input class="with-space" formControlName="fuel_type" placeholder="Üzemanyag típus" />
+      <select class="with-space" formControlName="fuel_type">
+        <option value="" disabled selected>Üzemanyag típus</option>
+        @for (fuelType of fuelTypes; track fuelType) {
+          <option [value]="fuelType">{{ fuelType }}</option>
+        }
+      </select>
     </div>
     <div class="form-row">
       <label>Leírás</label>

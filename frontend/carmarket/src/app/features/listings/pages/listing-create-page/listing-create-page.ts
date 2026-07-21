@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ListingService } from '../../services/listings.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { FUEL_TYPES } from '../../models/car-listing.model';
 
 @Component({
   selector: 'app-listing-create-page',
@@ -13,6 +14,7 @@ import { Location } from '@angular/common';
 })
 export class ListingCreatePage {
   form!: FormGroup;
+  fuelTypes = FUEL_TYPES;
 
   constructor(
     private fb: FormBuilder,

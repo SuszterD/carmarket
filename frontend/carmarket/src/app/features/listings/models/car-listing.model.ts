@@ -17,3 +17,5 @@ export interface PaginatedListings {
   page: number;
   page_size: number;
 }
+
+export const FUEL_TYPES = ['Benzin', 'Gázolaj', 'Hybrid'];
