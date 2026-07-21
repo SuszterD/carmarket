@@ -14,8 +14,20 @@ test_data = {
 }
 
 listings = [
-    {"brand": "Toyota", "fuel_type": "Benzin", "year": 2015, "price": 5000},
-    {"brand": "Toyota", "fuel_type": "Hybrid", "year": 2020, "price": 12000},
+    {
+        "brand": "Toyota",
+        "model": "Corolla",
+        "fuel_type": "Benzin",
+        "year": 2015,
+        "price": 5000,
+    },
+    {
+        "brand": "Toyota",
+        "model": "Camry",
+        "fuel_type": "Hybrid",
+        "year": 2020,
+        "price": 12000,
+    },
     {"brand": "Honda", "fuel_type": "Gázolaj", "year": 2018, "price": 8000},
 ]
 
@@ -168,3 +180,56 @@ def test_filter_by_fuel_type(test_db, test_user):
     assert response.json()["total"] == 1
     assert response.json()["items"][0]["year"] == 2015
     assert response.json()["items"][0]["price"] == 5000
+
+
+def test_sort_by_default(test_db, test_user):
+    user = test_user("testuser")
+
+    for listing in listings:
+        client.post("/listings", json={**test_data, **listing}, headers=user)
+
+    response = client.get("/listings")
+
+    assert response.json()["items"][0]["brand"] == "Honda"
+
+
+def test_sort_by_price_desc(test_db, test_user):
+    user = test_user("testuser")
+
+    for listing in listings:
+        client.post("/listings", json={**test_data, **listing}, headers=user)
+
+    response = client.get("/listings", params={"sort_by": "price", "order": "desc"})
+
+    assert response.json()["items"][0]["brand"] == "Toyota"
+    assert response.json()["items"][0]["model"] == "Camry"
+    assert response.json()["items"][0]["price"] == 12000
+    assert response.json()["items"][2]["price"] == 5000
+
+
+def test_sort_by_year_asc(test_db, test_user):
+    user = test_user("testuser")
+
+    for listing in listings:
+        client.post("/listings", json={**test_data, **listing}, headers=user)
+
+    response = client.get("/listings", params={"sort_by": "year", "order": "asc"})
+
+    assert response.json()["items"][0]["brand"] == "Toyota"
+    assert response.json()["items"][0]["model"] == "Corolla"
+    assert response.json()["items"][0]["year"] == 2015
+    assert response.json()["items"][2]["year"] == 2020
+
+
+def test_sort_by_brand_tiebreaker(test_db, test_user):
+    user = test_user("testuser")
+
+    for listing in listings:
+        client.post("/listings", json={**test_data, **listing}, headers=user)
+
+    response = client.get("/listings", params={"sort_by": "brand", "order": "desc"})
+
+    assert response.json()["items"][0]["brand"] == "Toyota"
+    assert response.json()["items"][0]["model"] == "Corolla"
+    assert response.json()["items"][1]["brand"] == "Toyota"
+    assert response.json()["items"][1]["model"] == "Camry"

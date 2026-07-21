@@ -16,6 +16,19 @@ class PageSize(IntEnum):
     LARGE = 50
 
 
+class SortBy(str, Enum):
+    BRAND = "brand"
+    YEAR = "year"
+    PRICE = "price"
+    MILEAGE = "mileage"
+    CREATED_AT = "created_at"
+
+
+class Order(str, Enum):
+    ASC = "asc"
+    DESC = "desc"
+
+
 class CarListingBase(BaseModel):
     brand: str = Field(min_length=1, max_length=50)
     model: str = Field(min_length=1, max_length=50)

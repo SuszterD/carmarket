@@ -33,6 +33,8 @@ def get_listings(
     year_max: int | None = Query(default=None, ge=1900, le=schemas.CURRENT_YEAR + 1),
     price_min: int | None = Query(default=None, ge=0),
     price_max: int | None = Query(default=None, ge=0),
+    sort_by: schemas.SortBy | None = Query(default=None),
+    order: schemas.Order | None = Query(default=None),
 ):
     if year_min is not None and year_max is not None:
         if year_min > year_max:
@@ -45,6 +47,13 @@ def get_listings(
             raise HTTPException(
                 status_code=422, detail="price_min cannot be greater than price_max"
             )
+
+    if sort_by is None:
+        sort_by = schemas.SortBy.CREATED_AT
+        if order is None:
+            order = schemas.Order.DESC
+    elif order is None:
+        order = schemas.Order.ASC
 
     query = db.query(models.CarListing)
 
@@ -65,6 +74,19 @@ def get_listings(
 
     if price_max is not None:
         query = query.filter(models.CarListing.price <= price_max)
+
+    column = getattr(models.CarListing, sort_by.value)
+
+    if order == schemas.Order.DESC:
+        if sort_by == schemas.SortBy.BRAND:
+            query = query.order_by(column.desc(), models.CarListing.model.desc())
+        else:
+            query = query.order_by(column.desc())
+    else:
+        if sort_by == schemas.SortBy.BRAND:
+            query = query.order_by(column.asc(), models.CarListing.model.asc())
+        else:
+            query = query.order_by(column.asc())
 
     skip = (page - 1) * page_size
     total = query.count()
