@@ -1,3 +1,54 @@
+<form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+  <div class="form-row">
+    <label>Márka</label>
+    <input class="with-space" formControlName="brand" placeholder="Márka" />
+  </div>
+  <div class="form-row">
+    <label>Üzemanyag típus</label>
+    <select formControlName="fuel_type">
+      <option value="">Összes</option>
+      @for (fuelType of fuelTypes; track fuelType) {
+        <option [value]="fuelType">{{ fuelType }}</option>
+      }
+    </select>
+  </div>
+  <div class="form-row">
+    <label>Évjárat(min)</label>
+    <input class="with-space" formControlName="year_min" placeholder="min" />
+  </div>
+  <div class="form-row">
+    <label>Évjárat(max)</label>
+    <input class="with-space" formControlName="year_max" placeholder="max" />
+  </div>
+  <div class="form-row">
+    <label>Ár(min)</label>
+    <input class="with-space" formControlName="price_min" placeholder="min" />
+  </div>
+  <div class="form-row">
+    <label>Ár(max)</label>
+    <input class="with-space" formControlName="price_max" placeholder="max" />
+  </div>
+  <div class="form-row">
+    <label>Rendezés</label>
+    <select formControlName="sort_by">
+      <option value="">Nincs rendezés</option>
+      @for (entry of sortByEntries; track entry[0]) {
+        <option [value]="entry[0]">{{ entry[1] }}</option>
+      }
+    </select>
+  </div>
+  <div class="form-row">
+    <label>Sorrend</label>
+    <select formControlName="order">
+      <option value="">Nincs sorrend</option>
+      @for (entry of orderEntries; track entry[0]) {
+        <option [value]="entry[0]">{{ entry[1] }}</option>
+      }
+    </select>
+  </div>
+  <button type="submit">Szűrés</button>
+  <button type="button" (click)="resetFilters()">Szűrők törlése</button>
+</form>
 @if (listingsState$ | async; as state) {
   @if (state.loading) {
     <p>A hirdetések betöltése...</p>
@@ -9,5 +60,15 @@
     @for (listing of state.listings; track listing.id) {
       <app-listing-card [listing]="listing" (onDelete)="onListingDelete()" />
     }
+    <div class="pagination-controls">
+      <button (click)="prevPage()" [disabled]="state.page === 1">Előző</button>
+      <span>{{ state.page }} / {{ Math.ceil(state.total / state.pageSize) }} oldal</span>
+      <button
+        (click)="nextPage()"
+        [disabled]="state.page === Math.ceil(state.total / state.pageSize)"
+      >
+        Következő
+      </button>
+    </div>
   }
 }

@@ -15,10 +15,10 @@ class CarListing(Base):
         String, ForeignKey("users.id", ondelete="CASCADE"), nullable=False
     )
     owner: Mapped["User"] = relationship(back_populates="listings")
-    brand: Mapped[str] = mapped_column(String, nullable=False)
+    brand: Mapped[str] = mapped_column(String, nullable=False, index=True)
     model: Mapped[str] = mapped_column(String, nullable=False)
-    year: Mapped[int] = mapped_column(Integer, nullable=False)
-    price: Mapped[int] = mapped_column(Integer, nullable=False)
+    year: Mapped[int] = mapped_column(Integer, nullable=False, index=True)
+    price: Mapped[int] = mapped_column(Integer, nullable=False, index=True)
     mileage: Mapped[int] = mapped_column(Integer, nullable=False)
     fuel_type: Mapped[str] = mapped_column(String, nullable=False)
     description: Mapped[str] = mapped_column(String, nullable=False)

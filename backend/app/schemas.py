@@ -1,6 +1,6 @@
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 from datetime import datetime
-from enum import Enum
+from enum import Enum, IntEnum
 
 CURRENT_YEAR = datetime.now().year
 
@@ -9,6 +9,24 @@ class FuelType(str, Enum):
     PETROL = "Benzin"
     GAS = "Gázolaj"
     HYBRID = "Hybrid"
+
+
+class PageSize(IntEnum):
+    SMALL = 25
+    LARGE = 50
+
+
+class SortBy(str, Enum):
+    BRAND = "brand"
+    YEAR = "year"
+    PRICE = "price"
+    MILEAGE = "mileage"
+    CREATED_AT = "created_at"
+
+
+class Order(str, Enum):
+    ASC = "asc"
+    DESC = "desc"
 
 
 class CarListingBase(BaseModel):
@@ -56,3 +74,10 @@ class UserResponse(UserBase):
 class Token(BaseModel):
     access_token: str
     token_type: str
+
+
+class PaginatedListingsResponse(BaseModel):
+    items: list[CarListingResponse]
+    total: int
+    page: int
+    page_size: int
