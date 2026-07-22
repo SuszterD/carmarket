@@ -12,8 +12,10 @@ export class ListingService {
 
   constructor(private http: HttpClient) {}
 
-  getListings(): Observable<PaginatedListings> {
-    return this.http.get<PaginatedListings>(this.apiUrl);
+  getListings(page: number, pageSize: number): Observable<PaginatedListings> {
+    return this.http.get<PaginatedListings>(this.apiUrl, {
+      params: { page, page_size: pageSize },
+    });
   }
 
   getListing(id: string): Observable<CarListing> {

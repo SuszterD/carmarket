@@ -9,5 +9,15 @@
     @for (listing of state.listings; track listing.id) {
       <app-listing-card [listing]="listing" (onDelete)="onListingDelete()" />
     }
+    <div class="pagination-controls">
+      <button (click)="prevPage()" [disabled]="state.page === 1">Előző</button>
+      <span>{{ state.page }} / {{ Math.ceil(state.total / state.pageSize) }} oldal</span>
+      <button
+        (click)="nextPage()"
+        [disabled]="state.page === Math.ceil(state.total / state.pageSize)"
+      >
+        Következő
+      </button>
+    </div>
   }
 }
