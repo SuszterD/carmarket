@@ -28,6 +28,24 @@
     <label>Ár(max)</label>
     <input class="with-space" formControlName="price_max" placeholder="max" />
   </div>
+  <div class="form-row">
+    <label>Rendezés</label>
+    <select formControlName="sort_by">
+      <option value="">Nincs rendezés</option>
+      @for (entry of sortByEntries; track entry[0]) {
+        <option [value]="entry[0]">{{ entry[1] }}</option>
+      }
+    </select>
+  </div>
+  <div class="form-row">
+    <label>Sorrend</label>
+    <select formControlName="order">
+      <option value="">Nincs sorrend</option>
+      @for (entry of orderEntries; track entry[0]) {
+        <option [value]="entry[0]">{{ entry[1] }}</option>
+      }
+    </select>
+  </div>
   <button type="submit">Szűrés</button>
   <button type="button" (click)="resetFilters()">Szűrők törlése</button>
 </form>

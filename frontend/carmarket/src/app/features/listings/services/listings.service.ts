@@ -36,6 +36,12 @@ export class ListingService {
     if (options.priceMax !== undefined) {
       params['price_max'] = options.priceMax;
     }
+    if (options.sortBy !== undefined) {
+      params['sort_by'] = options.sortBy;
+    }
+    if (options.order !== undefined) {
+      params['order'] = options.order;
+    }
     return this.http.get<PaginatedListings>(this.apiUrl, { params });
   }
 
