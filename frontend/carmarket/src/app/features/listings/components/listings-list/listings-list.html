@@ -1,3 +1,36 @@
+<form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+  <div class="form-row">
+    <label>Márka</label>
+    <input class="with-space" formControlName="brand" placeholder="Márka" />
+  </div>
+  <div class="form-row">
+    <label>Üzemanyag típus</label>
+    <select formControlName="fuel_type">
+      <option value="">Összes</option>
+      @for (fuelType of fuelTypes; track fuelType) {
+        <option [value]="fuelType">{{ fuelType }}</option>
+      }
+    </select>
+  </div>
+  <div class="form-row">
+    <label>Évjárat(min)</label>
+    <input class="with-space" formControlName="year_min" placeholder="min" />
+  </div>
+  <div class="form-row">
+    <label>Évjárat(max)</label>
+    <input class="with-space" formControlName="year_max" placeholder="max" />
+  </div>
+  <div class="form-row">
+    <label>Ár(min)</label>
+    <input class="with-space" formControlName="price_min" placeholder="min" />
+  </div>
+  <div class="form-row">
+    <label>Ár(max)</label>
+    <input class="with-space" formControlName="price_max" placeholder="max" />
+  </div>
+  <button type="submit">Szűrés</button>
+  <button type="button" (click)="resetFilters()">Szűrők törlése</button>
+</form>
 @if (listingsState$ | async; as state) {
   @if (state.loading) {
     <p>A hirdetések betöltése...</p>

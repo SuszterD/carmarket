@@ -19,3 +19,14 @@ export interface PaginatedListings {
 }
 
 export const FUEL_TYPES = ['Benzin', 'Gázolaj', 'Hybrid'];
+
+export interface ListingsQueryOptions {
+  page: number;
+  pageSize: number;
+  brand?: string;
+  fuelType?: string;
+  yearMin?: number;
+  yearMax?: number;
+  priceMin?: number;
+  priceMax?: number;
+}

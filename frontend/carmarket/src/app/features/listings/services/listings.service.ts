@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { CarListing, PaginatedListings } from '../models/car-listing.model';
+import { CarListing, ListingsQueryOptions, PaginatedListings } from '../models/car-listing.model';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +12,31 @@ export class ListingService {
 
   constructor(private http: HttpClient) {}
 
-  getListings(page: number, pageSize: number): Observable<PaginatedListings> {
-    return this.http.get<PaginatedListings>(this.apiUrl, {
-      params: { page, page_size: pageSize },
-    });
+  getListings(options: ListingsQueryOptions): Observable<PaginatedListings> {
+    const params: Record<string, string | number> = {
+      page: options.page,
+      page_size: options.pageSize,
+    };
+
+    if (options.brand !== undefined) {
+      params['brand'] = options.brand;
+    }
+    if (options.fuelType !== undefined) {
+      params['fuel_type'] = options.fuelType;
+    }
+    if (options.yearMin !== undefined) {
+      params['year_min'] = options.yearMin;
+    }
+    if (options.yearMax !== undefined) {
+      params['year_max'] = options.yearMax;
+    }
+    if (options.priceMin !== undefined) {
+      params['price_min'] = options.priceMin;
+    }
+    if (options.priceMax !== undefined) {
+      params['price_max'] = options.priceMax;
+    }
+    return this.http.get<PaginatedListings>(this.apiUrl, { params });
   }
 
   getListing(id: string): Observable<CarListing> {
