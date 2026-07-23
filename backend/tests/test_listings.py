@@ -40,12 +40,47 @@ def test_create_listing_requires_auth(test_db):
 
 
 def test_create_listing_success(test_db, test_user):
-
     response = client.post("/listings", json=test_data, headers=test_user("testuser"))
 
     assert response.status_code == 201
     assert response.json()["brand"] == "string"
     assert "id" in response.json()
+
+
+def test_get_listing_valid_id(test_db, test_user):
+    user = test_user("testuser")
+
+    listing_response = client.post("/listings", json=test_data, headers=user)
+
+    listing_id = listing_response.json()["id"]
+
+    response = client.get(f"/listings/{listing_id}")
+
+    assert response.status_code == 200
+    assert response.json()["brand"] == "string"
+
+
+def test_get_listing_invalid_id(test_db):
+    response = client.get("/listings/nonexistentid")
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Listing not found"
+
+
+def test_update_listing_success(test_db, test_user):
+    user = test_user("testuser")
+
+    listing_response = client.post("/listings", json=test_data, headers=user)
+
+    listing_id = listing_response.json()["id"]
+
+    response = client.put(
+        f"/listings/{listing_id}", json={**test_data, "brand": "string1"}, headers=user
+    )
+
+    assert response.status_code == 200
+    assert response.json()["id"] == listing_id
+    assert response.json()["brand"] == "string1"
 
 
 def test_update_listing_wrong_owner(test_db, test_user):
@@ -65,6 +100,21 @@ def test_update_listing_wrong_owner(test_db, test_user):
     assert response.status_code == 403
     assert response.json()["detail"] == "Not authorized to modify this listing"
     assert verify_response.json()["brand"] == "string"
+
+
+def test_delete_listing_success(test_db, test_user):
+    user = test_user("testuser")
+
+    listing_response = client.post("/listings", json=test_data, headers=user)
+
+    listing_id = listing_response.json()["id"]
+
+    response = client.delete(f"/listings/{listing_id}", headers=user)
+
+    verify_response = client.get(f"/listings/{listing_id}")
+
+    assert response.status_code == 204
+    assert verify_response.status_code == 404
 
 
 def test_delete_listing_wrong_owner(test_db, test_user):
