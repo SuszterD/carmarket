@@ -1,7 +1,31 @@
+import pytest
 from fastapi.testclient import TestClient
 from app.main import app
 
 client = TestClient(app)
+
+
+@pytest.mark.parametrize(
+    "field, invalid_value",
+    [
+        ("email", "invalid_email.com"),
+        ("username", "a" * 5),
+        ("username", "a" * 13),
+        ("password", "a" * 7),
+        ("password", "a" * 73),
+    ],
+)
+def test_register_invalid_fields(test_db, field, invalid_value):
+    test_data = {
+        "username": "testuser",
+        "email": "testuser@example.com",
+        "password": "testpassword",
+    }
+    payload = {**test_data, field: invalid_value}
+
+    response = client.post("/auth/register", json=payload)
+
+    assert response.status_code == 422
 
 
 def test_register_success(test_db):
