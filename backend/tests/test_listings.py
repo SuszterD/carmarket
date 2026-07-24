@@ -102,6 +102,15 @@ def test_update_listing_wrong_owner(test_db, test_user):
     assert verify_response.json()["brand"] == "string"
 
 
+def test_update_listing_not_found(test_db, test_user):
+    user = test_user("testuser")
+
+    response = client.put("/listings/nonexistent_id", json=test_data, headers=user)
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Listing not found"
+
+
 def test_delete_listing_success(test_db, test_user):
     user = test_user("testuser")
 
@@ -132,6 +141,15 @@ def test_delete_listing_wrong_owner(test_db, test_user):
     assert response.status_code == 403
     assert response.json()["detail"] == "Not authorized to delete this listing"
     assert verify_response.status_code == 200
+
+
+def test_delete_listing_not_found(test_db, test_user):
+    user = test_user("testuser")
+
+    response = client.delete("/listings/nonexistent_id", headers=user)
+
+    assert response.status_code == 404
+    assert response.json()["detail"] == "Listing not found"
 
 
 def test_pagination_default_values(test_db, test_user):
