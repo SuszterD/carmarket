@@ -1,5 +1,7 @@
+import pytest
 from fastapi.testclient import TestClient
 from app.main import app
+from app.schemas import CURRENT_YEAR
 
 client = TestClient(app)
 
@@ -30,6 +32,31 @@ listings = [
     },
     {"brand": "Honda", "fuel_type": "Gázolaj", "year": 2018, "price": 8000},
 ]
+
+
+@pytest.mark.parametrize(
+    "field, invalid_value",
+    [
+        ("brand", ""),
+        ("brand", "a" * 51),
+        ("model", ""),
+        ("model", "a" * 51),
+        ("year", 1899),
+        ("year", CURRENT_YEAR + 2),
+        ("price", -1),
+        ("mileage", -1),
+        ("fuel_type", "benzin"),
+        ("description", ""),
+        ("description", "a" * 501),
+    ],
+)
+def test_create_listing_invalid_fields(test_db, test_user, field, invalid_value):
+    user = test_user("testuser")
+    payload = {**test_data, field: invalid_value}
+
+    response = client.post("/listings", json=payload, headers=user)
+
+    assert response.status_code == 422
 
 
 def test_create_listing_requires_auth(test_db):
