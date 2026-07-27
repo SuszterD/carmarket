@@ -40,8 +40,13 @@ export class ListingEditPage {
 
     if (!id) return;
 
-    this.listingService.getListing(id).subscribe((listing) => {
-      this.form.patchValue(listing);
+    this.listingService.getListing(id).subscribe({
+      next: (listing) => {
+        this.form.patchValue(listing);
+      },
+      error: () => {
+        this.router.navigate(['/listings']);
+      },
     });
   }
 
