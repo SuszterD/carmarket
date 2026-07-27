@@ -29,7 +29,7 @@ describe('ListingCard', () => {
       year: 2020,
       price: 10000000,
       mileage: 80000,
-      fuel_type: 'diesel',
+      fuel_type: 'Gázolaj',
       description: 'teszt',
     } as any;
 
