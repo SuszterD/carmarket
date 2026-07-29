@@ -42,7 +42,7 @@ def test_user(test_db):
             "/auth/register",
             json={
                 "username": f"{username}",
-                "email": f"{username}testuser@example.com",
+                "email": f"{username}@example.com",
                 "password": "testpassword",
             },
         )
