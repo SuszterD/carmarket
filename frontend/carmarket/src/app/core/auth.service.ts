@@ -128,7 +128,9 @@ export class Auth {
           error: () => this.logout(),
         });
       }, msUntilRefresh);
-    } catch {}
+    } catch (err) {
+      console.error('Could not schedule token refresh — session will expire', err);
+    }
   }
 
   private clearRefreshTimer(): void {
