@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
+import { Router } from '@angular/router';
 
 export interface Token {
   access_token: string;
@@ -25,7 +26,10 @@ export class Auth {
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) {
     if (this.isLoggedIn()) {
       this.loadCurrentUser();
       this.scheduleRefresh();
@@ -78,7 +82,14 @@ export class Auth {
   }
 
   private loadCurrentUser(): void {
-    this.getCurrentUser().subscribe((user) => this.currentUserSubject.next(user));
+    this.getCurrentUser().subscribe({
+      next: (user) => this.currentUserSubject.next(user),
+      error: (err) => {
+        console.error('Failed to load current user, logging out', err);
+        this.logout();
+        this.router.navigate(['/listings']);
+      },
+    });
   }
 
   isLoggedIn(): boolean {
