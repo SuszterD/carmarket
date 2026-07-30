@@ -2,6 +2,7 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { Auth } from './auth.service';
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
+import { provideRouter, Router } from '@angular/router';
 
 describe('Auth', () => {
   let service: Auth;
@@ -35,7 +36,7 @@ describe('Auth', () => {
     localStorage.clear();
 
     TestBed.configureTestingModule({
-      providers: [provideHttpClient(), provideHttpClientTesting()],
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])],
     });
 
     service = TestBed.inject(Auth);
@@ -134,5 +135,31 @@ describe('Auth', () => {
     refreshReq.flush({ access_token: 'new-fake-token', token_type: 'bearer' });
 
     expect(localStorage.getItem('access_token')).toBe('new-fake-token');
+  });
+
+  it('should log out and redirect when loading the current user fails', () => {
+    const router = TestBed.inject(Router);
+    const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
+
+    service.login('testuser', 'testpassword').subscribe();
+
+    httpMock.expectOne('/api/auth/login').flush({
+      access_token: 'fake-token',
+      token_type: 'bearer',
+    });
+
+    httpMock
+      .expectOne('/api/auth/me')
+      .flush(
+        { detail: 'Could not validate credentials' },
+        { status: 401, statusText: 'Unauthorized' },
+      );
+
+    expect(localStorage.getItem('access_token')).toBeNull();
+    expect(navigateSpy).toHaveBeenCalledWith(['/listings']);
+
+    service.currentUser$.subscribe((user) => {
+      expect(user).toBeNull();
+    });
   });
 });
