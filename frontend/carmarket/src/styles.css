@@ -21,6 +21,7 @@
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
+  --space-3: 0.75rem;
   --space-4: 1rem;
   --space-8: 2rem;
 
@@ -45,10 +46,11 @@ body {
 
 button {
   padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
   border-radius: var(--radius);
   background-color: var(--color-accent-strong);
   color: white;
-  transition: 0.2s;
+  transition: background-color 0.2s;
   cursor: pointer;
   font-size: var(--text-sm);
 }
@@ -60,6 +62,22 @@ button:disabled {
 
 button:hover {
   background-color: var(--color-accent-hover);
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-surface-raised);
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-strong);
+  outline-offset: 2px;
 }
 
 .cancel-button {
