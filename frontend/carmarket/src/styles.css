@@ -1,34 +1,73 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+:root {
+  --font-sans: system-ui, sans-serif;
+
+  --color-surface: #f7f7fa;
+  --color-surface-raised: #ffffff;
+  --color-text: #1a1a1f;
+  --color-text-muted: #5c5c6b;
+  --color-border: #dcdce4;
+  --color-accent: #857ee4;
+  --color-accent-strong: #5b52c9;
+  --color-accent-hover: #4f46b8;
+  --color-danger: #c0392b;
+  --color-danger-hover: #a5322a;
+  --color-disabled: #a9a9b5;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --space-8: 2rem;
+
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5rem;
+  --text-2xl: 1.875rem;
+  --text-3xl: 2.5rem;
+
+  --radius: 6px;
+
+  --shadow-sm: 0 1px 2px rgba(26, 26, 31, 0.08), 0 1px 3px rgba(26, 26, 31, 0.06);
+  --shadow-md: 0 2px 4px rgba(26, 26, 31, 0.08), 0 4px 12px rgba(26, 26, 31, 0.08);
+}
+
 body {
-  background-color: #857ee4;
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-sans);
 }
 
 button {
-  padding: 10px 16px;
-  border-radius: 6px;
-  background-color: blue;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius);
+  background-color: var(--color-accent-strong);
   color: white;
   transition: 0.2s;
   cursor: pointer;
-  font-size: 15px;
+  font-size: var(--text-sm);
 }
 
 button:disabled {
-  background-color: grey;
+  background-color: var(--color-disabled);
   pointer-events: none;
 }
 
 button:hover {
-  background-color: rgb(152, 152, 225);
-  color: black;
+  background-color: var(--color-accent-hover);
 }
 
 .cancel-button {
-  background-color: red;
+  background-color: var(--color-danger);
   min-width: 100px;
 
   &:hover {
-    background-color: rgb(222, 124, 124);
-    color: black;
+    background-color: var(--color-danger-hover);
   }
 }
 
