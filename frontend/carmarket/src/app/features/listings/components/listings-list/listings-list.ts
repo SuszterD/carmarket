@@ -45,7 +45,7 @@ export class ListingsList {
   listingsState$: Observable<ListingsState>;
   filterForm: FormGroup;
   page = 1;
-  pageSize = 25;
+  pageSize = 24;
   fuelTypes = FUEL_TYPES;
 
   constructor(
