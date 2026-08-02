@@ -30,20 +30,10 @@
       <input id="price_max" formControlName="price_max" placeholder="max" />
     </div>
     <div class="filter-field">
-      <label for="sort_by">Rendezés</label>
-      <select id="sort_by" formControlName="sort_by">
-        <option value="">Nincs rendezés</option>
-        @for (entry of sortByEntries; track entry[0]) {
-          <option [value]="entry[0]">{{ entry[1] }}</option>
-        }
-      </select>
-    </div>
-    <div class="filter-field">
-      <label for="order">Sorrend</label>
-      <select id="order" formControlName="order">
-        <option value="">Nincs sorrend</option>
-        @for (entry of orderEntries; track entry[0]) {
-          <option [value]="entry[0]">{{ entry[1] }}</option>
+      <label for="sort">Rendezés</label>
+      <select id="sort" formControlName="sort">
+        @for (preset of sortPresets; track preset.value) {
+          <option [value]="preset.value">{{ preset.label }}</option>
         }
       </select>
     </div>

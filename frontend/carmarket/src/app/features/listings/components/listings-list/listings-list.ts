@@ -3,10 +3,15 @@ import { CommonModule } from '@angular/common';
 import { Observable, map, catchError, startWith, of, Subject, switchMap } from 'rxjs';
 
 import { ListingService } from '../../services/listings.service';
-import { CarListing, ListingsQueryOptions, ORDER, SORT_BY } from '../../models/car-listing.model';
 import { ListingCard } from '../listing-card/listing-card';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FUEL_TYPES } from '../../models/car-listing.model';
+import {
+  CarListing,
+  ListingsQueryOptions,
+  SORT_PRESETS,
+  DEFAULT_SORT_PRESET,
+  FUEL_TYPES,
+} from '../../models/car-listing.model';
 
 interface ListingsState {
   listings: CarListing[];
@@ -36,8 +41,7 @@ export class ListingsList {
   protected readonly Math = Math;
   private refresh$ = new Subject<void>();
 
-  sortByEntries = Object.entries(SORT_BY);
-  orderEntries = Object.entries(ORDER);
+  sortPresets = SORT_PRESETS;
   listingsState$: Observable<ListingsState>;
   filterForm: FormGroup;
   page = 1;
@@ -55,8 +59,7 @@ export class ListingsList {
       year_max: [''],
       price_min: [''],
       price_max: [''],
-      sort_by: [''],
-      order: [''],
+      sort: [DEFAULT_SORT_PRESET],
     });
     this.listingsState$ = this.refresh$.pipe(
       startWith(void 0),
@@ -122,8 +125,10 @@ export class ListingsList {
     options.yearMax = numberOrUndefined(values.year_max);
     options.priceMin = numberOrUndefined(values.price_min);
     options.priceMax = numberOrUndefined(values.price_max);
-    options.sortBy = stringOrUndefined(values.sort_by);
-    options.order = stringOrUndefined(values.order);
+
+    const preset = SORT_PRESETS.find((p) => p.value === values.sort);
+    options.sortBy = preset?.sortBy;
+    options.order = preset?.order;
 
     return options;
   }
@@ -141,8 +146,7 @@ export class ListingsList {
       year_max: '',
       price_min: '',
       price_max: '',
-      sort_by: '',
-      order: '',
+      sort: DEFAULT_SORT_PRESET,
     });
     this.applyFilters();
   }
