@@ -31,3 +31,18 @@ form {
   justify-content: flex-end;
   margin-top: var(--space-6);
 }
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--space-4);
+}
+
+.result-bar {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}

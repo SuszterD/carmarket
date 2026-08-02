@@ -51,9 +51,24 @@
   } @else if (state.listings.length == 0) {
     <p>Nincsenek elérhető hirdetések.</p>
   } @else {
-    @for (listing of state.listings; track listing.id) {
-      <app-listing-card [listing]="listing" (onDelete)="onListingDelete()" />
-    }
+    <div class="result-bar">
+      <span
+        ><strong>{{ state.total }}</strong> találat</span
+      >
+      <span>
+        <strong
+          >{{ (state.page - 1) * state.pageSize + 1 }}-{{
+            Math.min(state.page * state.pageSize, state.total)
+          }}</strong
+        >
+        megjelenítve</span
+      >
+    </div>
+    <div class="card-grid">
+      @for (listing of state.listings; track listing.id) {
+        <app-listing-card [listing]="listing" (onDelete)="onListingDelete()" />
+      }
+    </div>
     <div class="pagination-controls">
       <button (click)="prevPage()" [disabled]="state.page === 1">Előző</button>
       <span>{{ state.page }} / {{ Math.ceil(state.total / state.pageSize) }} oldal</span>
