@@ -28,7 +28,10 @@ function stringOrUndefined(value: string): string | undefined {
 }
 
 function numberOrUndefined(value: string): number | undefined {
-  return value !== '' ? Number(value) : undefined;
+  if (value === '') return undefined;
+
+  const parsed = Number(value);
+  return Number.isNaN(parsed) ? undefined : parsed;
 }
 
 @Component({
