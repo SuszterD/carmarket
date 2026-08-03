@@ -12,6 +12,7 @@ import {
   DEFAULT_SORT_PRESET,
   FUEL_TYPES,
 } from '../../models/car-listing.model';
+import { RouterLink } from '@angular/router';
 
 interface ListingsState {
   listings: CarListing[];
@@ -33,7 +34,7 @@ function numberOrUndefined(value: string): number | undefined {
 @Component({
   selector: 'app-listings-list',
   standalone: true,
-  imports: [CommonModule, ListingCard, ReactiveFormsModule],
+  imports: [CommonModule, ListingCard, ReactiveFormsModule, RouterLink],
   templateUrl: './listings-list.html',
   styleUrl: './listings-list.css',
 })
@@ -149,5 +150,11 @@ export class ListingsList {
       sort: DEFAULT_SORT_PRESET,
     });
     this.applyFilters();
+  }
+
+  get hasActiveFilters(): boolean {
+    const { sort, ...rest } = this.filterForm.value;
+
+    return Object.values(rest).some((value) => value !== '' && value !== null);
   }
 }

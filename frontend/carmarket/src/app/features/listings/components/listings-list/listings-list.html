@@ -45,11 +45,28 @@
 </form>
 @if (listingsState$ | async; as state) {
   @if (state.loading) {
-    <p>A hirdetések betöltése...</p>
+    <div class="state">
+      <p>A hirdetések betöltése...</p>
+    </div>
   } @else if (state.error) {
-    <p>A hirdetések betöltése sikertelen.</p>
-  } @else if (state.listings.length == 0) {
-    <p>Nincsenek elérhető hirdetések.</p>
+    <div class="state">
+      <h3>Hiba történt</h3>
+      <p>A hirdetések betöltése sikertelen.</p>
+      <button type="button" (click)="resetFilters()">Szűrők törlése</button>
+    </div>
+  } @else if (state.listings.length === 0) {
+    @if (hasActiveFilters) {
+      <div class="state">
+        <h3>Nincs találat</h3>
+        <p>A megadott szűrőknek nincs megfelelő hirdetés.</p>
+        <button type="button" (click)="resetFilters()">Szűrők törlése</button>
+      </div>
+    } @else {
+      <div class="state">
+        <h3>Nincsenek elérhető hirdetések</h3>
+        <button routerLink="/listings/new">Hirdetés létrehozása</button>
+      </div>
+    }
   } @else {
     <div class="result-bar">
       <span
