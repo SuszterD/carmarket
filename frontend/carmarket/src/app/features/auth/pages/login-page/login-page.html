@@ -1,14 +1,14 @@
-<h2>Bejelentkezés</h2>
+<h1>Bejelentkezés</h1>
 
 <form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="form-fields">
-    <div class="form-row">
-      <label>Felhasználónév</label>
-      <input class="with-space" formControlName="username" placeholder="Felhasználónév" />
+  <div class="form-grid">
+    <div class="form-field">
+      <label for="username">Felhasználónév</label>
+      <input id="username" formControlName="username" placeholder="Felhasználónév" />
     </div>
-    <div class="form-row">
-      <label>Jelszó</label>
-      <input class="with-space" type="password" formControlName="password" placeholder="Jelszó" />
+    <div class="form-field">
+      <label for="password">Jelszó</label>
+      <input id="password" type="password" formControlName="password" placeholder="Jelszó" />
     </div>
   </div>
 
@@ -16,7 +16,7 @@
     <p class="error-message">{{ errorMessage() }}</p>
   }
 
-  <div class="form-buttons">
+  <div class="form-actions">
     <button type="submit" [disabled]="form.invalid">Bejelentkezés</button>
   </div>
 </form>
