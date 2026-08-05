@@ -43,6 +43,10 @@
   --container: 1200px;
 }
 
+h1 {
+  font-size: var(--text-2xl);
+}
+
 body {
   background-color: var(--color-surface);
   color: var(--color-text);
@@ -86,6 +90,10 @@ textarea {
   color: var(--color-text);
 }
 
+textarea {
+  resize: none;
+}
+
 :focus-visible {
   outline: 2px solid var(--color-accent-strong);
   outline-offset: 2px;
@@ -98,4 +106,35 @@ textarea {
   &:hover {
     background-color: var(--color-danger-hover);
   }
+}
+
+.form-grid {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.form-grid--2col {
+  grid-template-columns: 1fr 1fr;
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.form-field--full {
+  grid-column: 1 / -1;
+}
+
+.form-field label {
+  font-size: var(--text-base);
+  font-weight: 600;
+  color: var(--color-text-muted);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
 }
