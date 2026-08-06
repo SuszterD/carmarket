@@ -1,22 +1,24 @@
-<h1>Bejelentkezés</h1>
+<div class="form-card form-card--narrow">
+  <h1>Bejelentkezés</h1>
 
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="form-grid">
-    <div class="form-field">
-      <label for="username">Felhasználónév</label>
-      <input id="username" formControlName="username" placeholder="Felhasználónév" />
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="username">Felhasználónév</label>
+        <input id="username" formControlName="username" placeholder="Felhasználónév" />
+      </div>
+      <div class="form-field">
+        <label for="password">Jelszó</label>
+        <input id="password" type="password" formControlName="password" placeholder="Jelszó" />
+      </div>
     </div>
-    <div class="form-field">
-      <label for="password">Jelszó</label>
-      <input id="password" type="password" formControlName="password" placeholder="Jelszó" />
+
+    @if (errorMessage()) {
+      <p class="error-message">{{ errorMessage() }}</p>
+    }
+
+    <div class="form-actions">
+      <button type="submit" [disabled]="form.invalid">Bejelentkezés</button>
     </div>
-  </div>
-
-  @if (errorMessage()) {
-    <p class="error-message">{{ errorMessage() }}</p>
-  }
-
-  <div class="form-actions">
-    <button type="submit" [disabled]="form.invalid">Bejelentkezés</button>
-  </div>
-</form>
+  </form>
+</div>

@@ -138,3 +138,20 @@ textarea {
   justify-content: flex-end;
   gap: var(--space-3);
 }
+
+.form-card {
+  background-color: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-8);
+  margin: 0 auto;
+}
+
+.form-card--narrow {
+  max-width: 420px;
+}
+
+.form-card h1 {
+  margin-top: 0;
+}
