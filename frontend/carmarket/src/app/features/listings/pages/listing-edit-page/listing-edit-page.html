@@ -1,43 +1,45 @@
-<h1>Hirdetés szerkesztése</h1>
+<div class="form-card">
+  <h1>Hirdetés szerkesztése</h1>
 
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="form-grid form-grid--2col">
-    <div class="form-field">
-      <label for="brand">Márka</label>
-      <input id="brand" formControlName="brand" placeholder="Márka" />
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-grid form-grid--2col">
+      <div class="form-field">
+        <label for="brand">Márka</label>
+        <input id="brand" formControlName="brand" placeholder="Márka" />
+      </div>
+      <div class="form-field">
+        <label for="model">Típus</label>
+        <input id="model" formControlName="model" placeholder="Típus" />
+      </div>
+      <div class="form-field">
+        <label for="year">Évjárat</label>
+        <input id="year" formControlName="year" placeholder="Évjárat" />
+      </div>
+      <div class="form-field">
+        <label for="price">Ár</label>
+        <input id="price" formControlName="price" placeholder="Ár" />
+      </div>
+      <div class="form-field">
+        <label for="mileage">Km óra állás</label>
+        <input id="mileage" formControlName="mileage" placeholder="Km óra állás" />
+      </div>
+      <div class="form-field">
+        <label for="fuel_type">Üzemanyag típus</label>
+        <select id="fuel_type" formControlName="fuel_type">
+          <option value="" disabled selected>Üzemanyag típus</option>
+          @for (fuelType of fuelTypes; track fuelType) {
+            <option [value]="fuelType">{{ fuelType }}</option>
+          }
+        </select>
+      </div>
+      <div class="form-field form-field--full">
+        <label for="description">Leírás</label>
+        <textarea id="description" rows="4" formControlName="description"></textarea>
+      </div>
     </div>
-    <div class="form-field">
-      <label for="model">Típus</label>
-      <input id="model" formControlName="model" placeholder="Típus" />
+    <div class="form-actions">
+      <button type="submit" [disabled]="form.invalid">Hirdetés frissítése</button>
+      <button type="button" class="cancel-button" (click)="goBack()">Vissza</button>
     </div>
-    <div class="form-field">
-      <label for="year">Évjárat</label>
-      <input id="year" formControlName="year" placeholder="Évjárat" />
-    </div>
-    <div class="form-field">
-      <label for="price">Ár</label>
-      <input id="price" formControlName="price" placeholder="Ár" />
-    </div>
-    <div class="form-field">
-      <label for="mileage">Km óra állás</label>
-      <input id="mileage" formControlName="mileage" placeholder="Km óra állás" />
-    </div>
-    <div class="form-field">
-      <label for="fuel_type">Üzemanyag típus</label>
-      <select id="fuel_type" formControlName="fuel_type">
-        <option value="" disabled selected>Üzemanyag típus</option>
-        @for (fuelType of fuelTypes; track fuelType) {
-          <option [value]="fuelType">{{ fuelType }}</option>
-        }
-      </select>
-    </div>
-    <div class="form-field form-field--full">
-      <label for="description">Leírás</label>
-      <textarea id="description" rows="4" formControlName="description"></textarea>
-    </div>
-  </div>
-  <div class="form-actions">
-    <button type="submit" [disabled]="form.invalid">Hirdetés frissítése</button>
-    <button type="button" class="cancel-button" (click)="goBack()">Vissza</button>
-  </div>
-</form>
+  </form>
+</div>

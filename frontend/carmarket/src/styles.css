@@ -146,6 +146,7 @@ textarea {
   box-shadow: var(--shadow-sm);
   padding: var(--space-8);
   margin: 0 auto;
+  max-width: 720px;
 }
 
 .form-card--narrow {
