@@ -1,25 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginPage } from './login-page';
 import { Auth } from '../../../../core/auth.service';
-import { Router } from '@angular/router';
+import { provideRouter, Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 describe('LoginPage', () => {
   let component: LoginPage;
   let fixture: ComponentFixture<LoginPage>;
   let authServiceMock: { login: ReturnType<typeof vi.fn> };
-  let routerMock: { navigate: ReturnType<typeof vi.fn> };
 
   beforeEach(() => {
     authServiceMock = { login: vi.fn() };
-    routerMock = { navigate: vi.fn() };
 
     TestBed.configureTestingModule({
       imports: [LoginPage],
-      providers: [
-        { provide: Auth, useValue: authServiceMock },
-        { provide: Router, useValue: routerMock },
-      ],
+      providers: [{ provide: Auth, useValue: authServiceMock }, provideRouter([])],
     });
 
     fixture = TestBed.createComponent(LoginPage);
@@ -39,12 +34,14 @@ describe('LoginPage', () => {
   });
 
   it('should login and navigate to /listings', () => {
+    const router = TestBed.inject(Router);
+    const navigateSpy = vi.spyOn(router, 'navigate').mockResolvedValue(true);
     component.form.setValue({ username: 'testuser', password: 'testpassword' });
     authServiceMock.login.mockReturnValue(of({ access_token: 'fake-token', token_type: 'bearer' }));
 
     component.submit();
 
-    expect(routerMock.navigate).toHaveBeenCalledWith(['/listings']);
+    expect(navigateSpy).toHaveBeenCalledWith(['/listings']);
     expect(authServiceMock.login).toHaveBeenCalledWith('testuser', 'testpassword');
   });
 
