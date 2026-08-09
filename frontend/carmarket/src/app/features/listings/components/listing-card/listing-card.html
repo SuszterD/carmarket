@@ -18,8 +18,14 @@
   @if (currentUser$ | async; as currentUser) {
     @if (currentUser.id === listing.user_id) {
       <div class="card-buttons">
-        <button [routerLink]="['/listings/edit', listing.id]">Szerkesztés</button>
-        <button type="button" class="cancel-button" (click)="deleteListing()">Törlés</button>
+        <button
+          type="button"
+          class="button--secondary"
+          [routerLink]="['/listings/edit', listing.id]"
+        >
+          Szerkesztés
+        </button>
+        <button type="button" class="button--danger" (click)="deleteListing()">Törlés</button>
       </div>
     }
   }

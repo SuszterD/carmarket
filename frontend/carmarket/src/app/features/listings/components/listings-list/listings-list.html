@@ -39,8 +39,8 @@
     </div>
   </div>
   <div class="filter-actions">
-    <button type="submit">Szűrés</button>
-    <button type="button" (click)="resetFilters()">Szűrők törlése</button>
+    <button type="submit" class="button--secondary">Szűrés</button>
+    <button type="button" class="button--secondary" (click)="resetFilters()">Szűrők törlése</button>
   </div>
 </form>
 @if (listingsState$ | async; as state) {
@@ -87,9 +87,18 @@
       }
     </div>
     <div class="pagination-controls">
-      <button (click)="prevPage()" [disabled]="state.page === 1">Előző</button>
+      <button
+        type="button"
+        class="button--secondary"
+        (click)="prevPage()"
+        [disabled]="state.page === 1"
+      >
+        Előző
+      </button>
       <span>{{ state.page }} / {{ Math.ceil(state.total / state.pageSize) }} oldal</span>
       <button
+        type="button"
+        class="button--secondary"
         (click)="nextPage()"
         [disabled]="state.page === Math.ceil(state.total / state.pageSize)"
       >

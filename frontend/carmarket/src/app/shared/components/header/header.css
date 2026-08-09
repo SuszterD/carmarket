@@ -3,12 +3,12 @@
 }
 
 .app-header :focus-visible {
-  outline-color: white;
+  outline-color: var(--color-text-on-accent);
 }
 
 .header-inner {
   display: flex;
-  color: white;
+  color: var(--color-text-on-accent);
   align-items: center;
   justify-content: space-between;
   max-width: var(--container);
@@ -19,7 +19,7 @@
 .logo {
   font-size: var(--text-lg);
   font-weight: bold;
-  color: white;
+  color: var(--color-text-on-accent);
   text-decoration: none;
 }
 
@@ -29,18 +29,18 @@
   gap: var(--space-3);
 
   a {
-    color: white;
+    color: var(--color-text-on-accent);
     text-decoration: underline;
   }
 
   button {
     background-color: transparent;
-    color: white;
+    color: var(--color-text-on-accent);
     border: 1px solid rgba(255, 255, 255, 0.6);
 
     &:hover {
       background-color: rgba(255, 255, 255, 0.15);
-      border-color: white;
+      border-color: var(--color-text-on-accent);
     }
   }
 }
