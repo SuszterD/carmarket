@@ -77,4 +77,9 @@ describe('RegisterPage', () => {
 
     expect(component.errorMessage()).toBe('Sikertelen regisztráció');
   });
+
+  it('should link to the login page', () => {
+    const link = fixture.nativeElement.querySelector('.auth-footer a');
+    expect(link.getAttribute('href')).toBe('/login');
+  });
 });

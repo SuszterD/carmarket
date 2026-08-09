@@ -53,4 +53,9 @@ describe('LoginPage', () => {
 
     expect(component.errorMessage()).toBe('Hibás felhasználónév vagy jelszó');
   });
+
+  it('should link to the register page', () => {
+    const link = fixture.nativeElement.querySelector('.auth-footer a');
+    expect(link.getAttribute('href')).toBe('/register');
+  });
 });
