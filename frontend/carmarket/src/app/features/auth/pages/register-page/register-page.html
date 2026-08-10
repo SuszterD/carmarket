@@ -1,26 +1,32 @@
-<h2>Regisztráció</h2>
+<div class="form-card form-card--narrow">
+  <h1>Regisztráció</h1>
 
-<form [formGroup]="form" (ngSubmit)="submit()">
-  <div class="form-fields">
-    <div class="form-row">
-      <label>Felhasználónév</label>
-      <input class="with-space" formControlName="username" placeholder="Felhasználónév" />
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="form-grid">
+      <div class="form-field">
+        <label for="username">Felhasználónév</label>
+        <input id="username" formControlName="username" placeholder="Felhasználónév" />
+      </div>
+      <div class="form-field">
+        <label for="email">Email</label>
+        <input id="email" formControlName="email" placeholder="Email" />
+      </div>
+      <div class="form-field">
+        <label for="password">Jelszó</label>
+        <input id="password" type="password" formControlName="password" placeholder="Jelszó" />
+      </div>
     </div>
-    <div class="form-row">
-      <label>Email</label>
-      <input class="with-space" formControlName="email" placeholder="Email" />
-    </div>
-    <div class="form-row">
-      <label>Jelszó</label>
-      <input class="with-space" type="password" formControlName="password" placeholder="Jelszó" />
-    </div>
-  </div>
 
-  @if (errorMessage()) {
-    <p class="error-message">{{ errorMessage() }}</p>
-  }
+    @if (errorMessage()) {
+      <p class="error-message">{{ errorMessage() }}</p>
+    }
 
-  <div class="form-buttons">
-    <button type="submit" [disabled]="form.invalid">Regisztráció</button>
-  </div>
-</form>
+    <div class="form-actions">
+      <button type="submit" [disabled]="form.invalid">Regisztráció</button>
+    </div>
+  </form>
+  <p class="auth-footer">
+    Van már fiókod?
+    <a routerLink="/login">Bejelentkezés</a>
+  </p>
+</div>

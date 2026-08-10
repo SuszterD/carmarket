@@ -1,0 +1,17 @@
+.page-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-6);
+}
+
+.page-head .button {
+  font-size: var(--text-base);
+  padding: var(--space-2) var(--space-4);
+}
+
+h1 {
+  margin: 0;
+}

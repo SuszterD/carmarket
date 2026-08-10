@@ -34,6 +34,6 @@ describe('ListingsPage', () => {
   it('should render title', async () => {
     await fixture.whenStable();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h1')?.textContent).toContain('CarMarket - Hirdetések');
+    expect(compiled.querySelector('h1')?.textContent).toContain('Hirdetések');
   });
 });

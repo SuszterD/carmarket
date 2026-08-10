@@ -12,8 +12,8 @@ class FuelType(str, Enum):
 
 
 class PageSize(IntEnum):
-    SMALL = 25
-    LARGE = 50
+    SMALL = 24
+    LARGE = 48
 
 
 class SortBy(str, Enum):

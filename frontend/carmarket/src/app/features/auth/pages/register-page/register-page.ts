@@ -1,11 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../../core/auth.service';
 
 @Component({
   selector: 'app-register-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './register-page.html',
   styleUrl: './register-page.css',
 })

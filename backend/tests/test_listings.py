@@ -189,8 +189,8 @@ def test_pagination_default_values(test_db, test_user):
     assert response.status_code == 200
     assert response.json()["total"] == 40
     assert response.json()["page"] == 1
-    assert response.json()["page_size"] == 25
-    assert len(response.json()["items"]) == 25
+    assert response.json()["page_size"] == 24
+    assert len(response.json()["items"]) == 24
 
 
 def test_pagination_page_two(test_db, test_user):
@@ -198,13 +198,13 @@ def test_pagination_page_two(test_db, test_user):
     for _ in range(60):
         client.post("/listings", json=test_data, headers=user)
 
-    response = client.get("/listings", params={"page": 2, "page_size": 50})
+    response = client.get("/listings", params={"page": 2, "page_size": 48})
 
     assert response.status_code == 200
     assert response.json()["total"] == 60
     assert response.json()["page"] == 2
-    assert response.json()["page_size"] == 50
-    assert len(response.json()["items"]) == 10
+    assert response.json()["page_size"] == 48
+    assert len(response.json()["items"]) == 12
 
 
 def test_pagination_invalid_page_size():

@@ -23,7 +23,7 @@ describe('ListingsList', () => {
 
   it('should create', () => {
     listingServiceMock.getListings.mockReturnValue(
-      of({ items: [], total: 0, page: 1, page_size: 25 }),
+      of({ items: [], total: 0, page: 1, page_size: 24 }),
     );
 
     expect(component).toBeTruthy();
@@ -31,7 +31,7 @@ describe('ListingsList', () => {
 
   it('should emit loading then success states', () => {
     listingServiceMock.getListings.mockReturnValue(
-      of({ items: [{ id: '1', brand: 'BMW' }], total: 1, page: 1, page_size: 25 }),
+      of({ items: [{ id: '1', brand: 'BMW' }], total: 1, page: 1, page_size: 24 }),
     );
 
     const emissions: any[] = [];
@@ -58,7 +58,7 @@ describe('ListingsList', () => {
 
   it('should emit loading then empty states', () => {
     listingServiceMock.getListings.mockReturnValue(
-      of({ items: [], total: 0, page: 1, page_size: 25 }),
+      of({ items: [], total: 0, page: 1, page_size: 24 }),
     );
 
     const emissions: any[] = [];

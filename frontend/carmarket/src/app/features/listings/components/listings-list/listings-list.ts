@@ -3,10 +3,16 @@ import { CommonModule } from '@angular/common';
 import { Observable, map, catchError, startWith, of, Subject, switchMap } from 'rxjs';
 
 import { ListingService } from '../../services/listings.service';
-import { CarListing, ListingsQueryOptions, ORDER, SORT_BY } from '../../models/car-listing.model';
 import { ListingCard } from '../listing-card/listing-card';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { FUEL_TYPES } from '../../models/car-listing.model';
+import {
+  CarListing,
+  ListingsQueryOptions,
+  SORT_PRESETS,
+  DEFAULT_SORT_PRESET,
+  FUEL_TYPES,
+} from '../../models/car-listing.model';
+import { RouterLink } from '@angular/router';
 
 interface ListingsState {
   listings: CarListing[];
@@ -22,13 +28,16 @@ function stringOrUndefined(value: string): string | undefined {
 }
 
 function numberOrUndefined(value: string): number | undefined {
-  return value !== '' ? Number(value) : undefined;
+  if (value === '') return undefined;
+
+  const parsed = Number(value);
+  return Number.isNaN(parsed) ? undefined : parsed;
 }
 
 @Component({
   selector: 'app-listings-list',
   standalone: true,
-  imports: [CommonModule, ListingCard, ReactiveFormsModule],
+  imports: [CommonModule, ListingCard, ReactiveFormsModule, RouterLink],
   templateUrl: './listings-list.html',
   styleUrl: './listings-list.css',
 })
@@ -36,12 +45,11 @@ export class ListingsList {
   protected readonly Math = Math;
   private refresh$ = new Subject<void>();
 
-  sortByEntries = Object.entries(SORT_BY);
-  orderEntries = Object.entries(ORDER);
+  sortPresets = SORT_PRESETS;
   listingsState$: Observable<ListingsState>;
   filterForm: FormGroup;
   page = 1;
-  pageSize = 25;
+  pageSize = 24;
   fuelTypes = FUEL_TYPES;
 
   constructor(
@@ -55,8 +63,7 @@ export class ListingsList {
       year_max: [''],
       price_min: [''],
       price_max: [''],
-      sort_by: [''],
-      order: [''],
+      sort: [DEFAULT_SORT_PRESET],
     });
     this.listingsState$ = this.refresh$.pipe(
       startWith(void 0),
@@ -122,8 +129,10 @@ export class ListingsList {
     options.yearMax = numberOrUndefined(values.year_max);
     options.priceMin = numberOrUndefined(values.price_min);
     options.priceMax = numberOrUndefined(values.price_max);
-    options.sortBy = stringOrUndefined(values.sort_by);
-    options.order = stringOrUndefined(values.order);
+
+    const preset = SORT_PRESETS.find((p) => p.value === values.sort);
+    options.sortBy = preset?.sortBy;
+    options.order = preset?.order;
 
     return options;
   }
@@ -141,9 +150,14 @@ export class ListingsList {
       year_max: '',
       price_min: '',
       price_max: '',
-      sort_by: '',
-      order: '',
+      sort: DEFAULT_SORT_PRESET,
     });
     this.applyFilters();
+  }
+
+  get hasActiveFilters(): boolean {
+    const { sort, ...rest } = this.filterForm.value;
+
+    return Object.values(rest).some((value) => value !== '' && value !== null);
   }
 }
