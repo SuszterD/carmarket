@@ -18,4 +18,9 @@ export const ListingsRoutes: Routes = [
     loadComponent: () =>
       import('./pages/listing-edit-page/listing-edit-page').then((m) => m.ListingEditPage),
   },
+  {
+    path: ':id',
+    loadComponent: () =>
+      import('./pages/listing-detail-page/listing-detail-page').then((m) => m.ListingDetailPage),
+  },
 ];
