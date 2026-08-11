@@ -184,3 +184,11 @@ textarea {
   color: var(--color-accent-strong);
   font-weight: 500;
 }
+
+.badge {
+  font-size: var(--text-sm);
+  padding: 2px var(--space-2);
+  border-radius: 999px;
+  background-color: var(--color-accent-tint);
+  color: var(--color-accent-strong);
+}

@@ -1,0 +1,43 @@
+.detail-page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: var(--space-2);
+  max-width: 720px;
+  gap: var(--space-4);
+}
+
+.detail-page h1,
+.detail-page p {
+  margin: 0;
+}
+
+.specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.specs span {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.specs b {
+  color: var(--color-text);
+}
+
+.price {
+  font-size: var(--text-3xl);
+  font-weight: 500;
+  color: var(--color-accent-strong);
+}
+
+.description {
+  max-width: 65ch;
+}
+
+.loading {
+  color: var(--color-text-muted);
+}
