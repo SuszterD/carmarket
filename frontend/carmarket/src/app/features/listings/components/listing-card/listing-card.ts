@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarListing } from '../../models/car-listing.model';
 import { RouterLink } from '@angular/router';
-
-import { ListingService } from '../../services/listings.service';
 import { Auth, User } from '../../../../core/auth.service';
 import { Observable } from 'rxjs';
 
@@ -16,26 +14,10 @@ import { Observable } from 'rxjs';
 })
 export class ListingCard {
   @Input() listing!: CarListing;
-  @Output() onDelete: EventEmitter<void> = new EventEmitter<void>();
 
   currentUser$: Observable<User | null>;
 
-  constructor(
-    private listingService: ListingService,
-    private authService: Auth,
-  ) {
+  constructor(private authService: Auth) {
     this.currentUser$ = this.authService.currentUser$;
-  }
-
-  deleteListing() {
-    const confirmed = window.confirm('Biztosan törölni szeretnéd ezt a hirdetést?');
-
-    if (!confirmed) {
-      return;
-    }
-
-    this.listingService.deleteListing(this.listing.id).subscribe(() => {
-      this.onDelete.emit();
-    });
   }
 }

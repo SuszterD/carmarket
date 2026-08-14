@@ -200,7 +200,14 @@ textarea {
 .badge {
   font-size: var(--text-sm);
   padding: 2px var(--space-2);
+  border: 1px solid transparent;
   border-radius: 999px;
   background-color: var(--color-accent-tint);
   color: var(--color-accent-strong);
+}
+
+.badge--owner {
+  background-color: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text-muted);
 }

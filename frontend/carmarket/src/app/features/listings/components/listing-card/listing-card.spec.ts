@@ -1,36 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ListingCard } from './listing-card';
-import { of } from 'rxjs';
-import { ListingService } from '../../services/listings.service';
-import { Auth } from '../../../../core/auth.service';
+import { BehaviorSubject } from 'rxjs';
+import { Auth, User } from '../../../../core/auth.service';
 import { By } from '@angular/platform-browser';
 import { provideRouter, RouterLink } from '@angular/router';
 
 describe('ListingCard', () => {
   let component: ListingCard;
   let fixture: ComponentFixture<ListingCard>;
-
-  const listingServiceMock = {
-    deleteListing: vi.fn(() => of(void 0)),
-  };
-
-  const authServiceMock = {
-    currentUser$: of({
-      id: '1',
-      username: 'testuser',
-      email: 'testuser@example.com',
-      created_at: '2026-01-01',
-    }),
-  };
+  let authServiceMock: { currentUser$: BehaviorSubject<User | null> };
 
   beforeEach(async () => {
+    authServiceMock = {
+      currentUser$: new BehaviorSubject<User | null>({
+        id: '1',
+        username: 'testuser',
+        email: 'testuser@example.com',
+        created_at: '2026-01-01',
+      }),
+    };
     await TestBed.configureTestingModule({
       imports: [ListingCard],
-      providers: [
-        { provide: ListingService, useValue: listingServiceMock },
-        { provide: Auth, useValue: authServiceMock },
-        provideRouter([]),
-      ],
+      providers: [{ provide: Auth, useValue: authServiceMock }, provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ListingCard);
@@ -57,16 +48,28 @@ describe('ListingCard', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call deleteListing when delete is triggered', () => {
-    vi.spyOn(window, 'confirm').mockReturnValue(true);
-    component.deleteListing();
-    expect(listingServiceMock.deleteListing).toHaveBeenCalled();
+  it('should link to the detail page for this listing', () => {
+    const link = fixture.debugElement.query(By.directive(RouterLink));
+    const routerLink = link.injector.get(RouterLink);
+
+    expect((routerLink as any).routerLinkInput()).toEqual(['/listings', '1']);
   });
 
-  it('should link to the edit page for this listing', () => {
-    const editLink = fixture.debugElement.query(By.directive(RouterLink));
-    const routerLink = editLink.injector.get(RouterLink);
+  it('should show the owner badge when the user owns the listing', () => {
+    expect(fixture.nativeElement.querySelector('.badge--owner')).toBeTruthy();
+  });
 
-    expect((routerLink as any).routerLinkInput()).toEqual(['/listings/edit', '1']);
+  it('should not show the owner badge when the user doesnt own the listing', () => {
+    authServiceMock.currentUser$.next({
+      id: '2',
+      username: 'testuser',
+      email: 'testuser@example.com',
+      created_at: '2026-01-01',
+    });
+
+    fixture.detectChanges();
+    const badge = fixture.nativeElement.querySelectorAll('.badge--owner');
+
+    expect(badge).toHaveLength(0);
   });
 });
