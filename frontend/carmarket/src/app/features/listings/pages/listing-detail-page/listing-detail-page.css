@@ -31,6 +31,7 @@
 .price {
   font-size: var(--text-3xl);
   font-weight: 500;
+  line-height: var(--leading-tight);
   color: var(--color-accent-strong);
 }
 
