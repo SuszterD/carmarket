@@ -17,9 +17,27 @@
         <b>{{ car.mileage | number: '1.0-0' }} km</b>
       </div>
     </div>
-    <p class="description">
+    <p>
       {{ car.description }}
     </p>
-    <a class="button button--secondary" [routerLink]="['/listings']"> Vissza a hirdetésekhez </a>
+    <div class="detail-actions">
+      <a type="button" class="button button--secondary" [routerLink]="['/listings']">
+        Vissza a hirdetésekhez
+      </a>
+      @if (currentUser$ | async; as currentUser) {
+        @if (currentUser.id === car.user_id) {
+          <button
+            type="button"
+            class="button button--secondary"
+            [routerLink]="['/listings/edit', car.id]"
+          >
+            Szerkesztés
+          </button>
+          <button type="button" class="button button--danger" (click)="deleteListing()">
+            Törlés
+          </button>
+        }
+      }
+    </div>
   </div>
 }
