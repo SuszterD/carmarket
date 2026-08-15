@@ -3,6 +3,8 @@
 }
 
 .listing-card {
+  text-decoration: none;
+  color: inherit;
   height: 100%;
   display: flex;
   gap: var(--space-2);
@@ -36,13 +38,10 @@
   color: var(--color-accent-strong);
 }
 
-.badge {
-  font-size: var(--text-sm);
+.card-badges {
+  display: flex;
+  gap: var(--space-2);
   align-self: flex-start;
-  padding: 2px var(--space-2);
-  border-radius: 999px;
-  background-color: var(--color-accent-tint);
-  color: var(--color-accent-strong);
 }
 
 .specs {
@@ -62,13 +61,6 @@
 .specs b {
   font-size: var(--text-base);
   color: var(--color-text);
-}
-
-.card-buttons {
-  margin-top: auto;
-  display: flex;
-  gap: var(--space-2);
-  justify-content: flex-end;
 }
 
 .description {

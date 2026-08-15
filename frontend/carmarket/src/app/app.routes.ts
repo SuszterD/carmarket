@@ -20,4 +20,8 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/auth/pages/register-page/register-page').then((m) => m.RegisterPage),
   },
+  {
+    path: '**',
+    loadComponent: () => import('./shared/pages/not-found/not-found').then((m) => m.NotFound),
+  },
 ];

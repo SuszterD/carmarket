@@ -1,0 +1,43 @@
+@if (loading()) {
+  <p class="loading">A hirdetés betöltése...</p>
+} @else if (notFound()) {
+  <app-not-found />
+} @else if (listing(); as car) {
+  <div class="detail-page">
+    <h1>{{ car.brand }} {{ car.model }}</h1>
+    <div class="price">{{ car.price | number: '1.0-0' }} Ft</div>
+    <span class="badge">{{ car.fuel_type }}</span>
+    <div class="specs">
+      <div>
+        <span>Évjárat</span>
+        <b>{{ car.year }}</b>
+      </div>
+      <div>
+        <span>Km óra állás</span>
+        <b>{{ car.mileage | number: '1.0-0' }} km</b>
+      </div>
+    </div>
+    <p>
+      {{ car.description }}
+    </p>
+    <div class="detail-actions">
+      <a type="button" class="button button--secondary" [routerLink]="['/listings']">
+        Vissza a hirdetésekhez
+      </a>
+      @if (currentUser$ | async; as currentUser) {
+        @if (currentUser.id === car.user_id) {
+          <button
+            type="button"
+            class="button button--secondary"
+            [routerLink]="['/listings/edit', car.id]"
+          >
+            Szerkesztés
+          </button>
+          <button type="button" class="button button--danger" (click)="deleteListing()">
+            Törlés
+          </button>
+        }
+      }
+    </div>
+  </div>
+}

@@ -83,7 +83,7 @@
     </div>
     <div class="card-grid">
       @for (listing of state.listings; track listing.id) {
-        <app-listing-card [listing]="listing" (onDelete)="onListingDelete()" />
+        <app-listing-card [listing]="listing" />
       }
     </div>
     <div class="pagination-controls">

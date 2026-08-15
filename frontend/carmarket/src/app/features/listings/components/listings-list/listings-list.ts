@@ -102,11 +102,6 @@ export class ListingsList {
     );
   }
 
-  onListingDelete() {
-    window.alert('A hirdetés törölve.');
-    this.refresh$.next();
-  }
-
   nextPage() {
     this.page++;
     this.refresh$.next();
