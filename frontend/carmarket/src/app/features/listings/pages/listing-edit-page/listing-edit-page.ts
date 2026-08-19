@@ -92,4 +92,16 @@ export class ListingEditPage {
   goBack() {
     this.location.back();
   }
+
+  errorFor(field: string): string | null {
+    const control = this.form.get(field);
+    if (!control || control.valid || !control.touched) return null;
+
+    const errors = control.errors ?? {};
+    if (errors['required']) return 'A mező kitöltése kötelező.';
+    if (errors['maxlength']) return `Legfeljebb ${errors['maxlength'].requiredLength} karakter.`;
+    if (errors['min']) return `Nem lehet kevesebb, mint ${errors['min'].min}.`;
+    if (errors['max']) return `Nem lehet több, mint ${errors['max'].max}.`;
+    return null;
+  }
 }

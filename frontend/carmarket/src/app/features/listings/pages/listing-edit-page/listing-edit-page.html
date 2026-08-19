@@ -3,27 +3,42 @@
 
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="form-grid form-grid--2col">
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('brand')">
         <label for="brand">Márka</label>
         <input id="brand" formControlName="brand" placeholder="Márka" />
+        @if (errorFor('brand'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('model')">
         <label for="model">Típus</label>
         <input id="model" formControlName="model" placeholder="Típus" />
+        @if (errorFor('model'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('year')">
         <label for="year">Évjárat</label>
         <input id="year" formControlName="year" placeholder="Évjárat" />
+        @if (errorFor('year'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('price')">
         <label for="price">Ár</label>
         <input id="price" formControlName="price" placeholder="Ár" />
+        @if (errorFor('price'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('mileage')">
         <label for="mileage">Km óra állás</label>
         <input id="mileage" formControlName="mileage" placeholder="Km óra állás" />
+        @if (errorFor('mileage'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('fuel_type')">
         <label for="fuel_type">Üzemanyag típus</label>
         <select id="fuel_type" formControlName="fuel_type">
           <option value="" disabled selected>Üzemanyag típus</option>
@@ -31,14 +46,20 @@
             <option [value]="fuelType">{{ fuelType }}</option>
           }
         </select>
+        @if (errorFor('fuel_type'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
-      <div class="form-field form-field--full">
+      <div class="form-field form-field--full" [class.form-field--error]="errorFor('description')">
         <label for="description">Leírás</label>
         <textarea id="description" rows="4" formControlName="description"></textarea>
+        @if (errorFor('description'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
     </div>
     <div class="form-actions">
-      <button type="submit" [disabled]="form.invalid">Hirdetés frissítése</button>
+      <button type="submit">Hirdetés frissítése</button>
       <button type="button" class="button--secondary" (click)="goBack()">Vissza</button>
     </div>
   </form>
