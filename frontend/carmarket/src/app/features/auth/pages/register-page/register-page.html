@@ -3,26 +3,33 @@
 
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="form-grid">
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('username')">
         <label for="username">Felhasználónév</label>
         <input id="username" formControlName="username" placeholder="Felhasználónév" />
+        @if (errorFor('username'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('email')">
         <label for="email">Email</label>
-        <input id="email" formControlName="email" placeholder="Email" />
+        <input id="email" type="email" formControlName="email" placeholder="Email" />
+        @if (errorFor('email'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('password')">
         <label for="password">Jelszó</label>
         <input id="password" type="password" formControlName="password" placeholder="Jelszó" />
+        @if (errorFor('password'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
     </div>
-
     @if (errorMessage()) {
       <p class="error-message">{{ errorMessage() }}</p>
     }
-
     <div class="form-actions">
-      <button type="submit" [disabled]="form.invalid">Regisztráció</button>
+      <button type="submit">Regisztráció</button>
     </div>
   </form>
   <p class="auth-footer">

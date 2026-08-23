@@ -33,8 +33,8 @@ class CarListingBase(BaseModel):
     brand: str = Field(min_length=1, max_length=50)
     model: str = Field(min_length=1, max_length=50)
     year: int = Field(ge=1900, le=CURRENT_YEAR + 1)
-    price: int = Field(ge=0)
-    mileage: int = Field(ge=0)
+    price: int = Field(ge=0, le=2_000_000_000)
+    mileage: int = Field(ge=0, le=10_000_000)
     fuel_type: FuelType
     description: str = Field(min_length=1, max_length=500)
 

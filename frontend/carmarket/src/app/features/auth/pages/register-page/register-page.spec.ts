@@ -12,6 +12,11 @@ describe('RegisterPage', () => {
   let fixture: ComponentFixture<RegisterPage>;
   let authServiceMock: { register: ReturnType<typeof vi.fn> };
 
+  const messageFor = (id: string): string | null => {
+    const field = fixture.nativeElement.querySelector(`#${id}`).closest('.form-field');
+    return field.querySelector('.error-message')?.textContent.trim() ?? null;
+  };
+
   beforeEach(() => {
     authServiceMock = { register: vi.fn() };
 
@@ -81,5 +86,36 @@ describe('RegisterPage', () => {
   it('should link to the login page', () => {
     const link = fixture.nativeElement.querySelector('.auth-footer a');
     expect(link.getAttribute('href')).toBe('/login');
+  });
+
+  it('should show a required message for an empty touched field', () => {
+    component.submit();
+    fixture.detectChanges();
+
+    expect(messageFor('username')).toBe('A mező kitöltése kötelező.');
+  });
+
+  it('should show a format message for an invalid email', () => {
+    component.form.setValue({ ...formData, email: 'not-an-email' });
+    component.submit();
+    fixture.detectChanges();
+
+    expect(messageFor('email')).toBe('Érvénytelen email cím.');
+  });
+
+  it('should quote the bound in the minlength message', () => {
+    component.form.setValue({ ...formData, username: 'abc' });
+    component.submit();
+    fixture.detectChanges();
+
+    expect(messageFor('username')).toBe('Legalább 6 karakter.');
+  });
+
+  it('should show no field messages when the form is valid', () => {
+    component.form.setValue(formData);
+    component.form.markAllAsTouched();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelectorAll('.error-message--field').length).toBe(0);
   });
 });

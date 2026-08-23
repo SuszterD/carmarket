@@ -58,4 +58,15 @@ describe('LoginPage', () => {
     const link = fixture.nativeElement.querySelector('.auth-footer a');
     expect(link.getAttribute('href')).toBe('/register');
   });
+
+  it('should show a required message under the field it belongs to', () => {
+    component.form.setValue({ username: 'testuser', password: '' });
+    component.submit();
+    fixture.detectChanges();
+
+    const field = fixture.nativeElement.querySelector('#password').closest('.form-field');
+    expect(field.querySelector('.error-message')?.textContent.trim()).toBe(
+      'A mező kitöltése kötelező.',
+    );
+  });
 });

@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ListingService } from '../../services/listings.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { FUEL_TYPES } from '../../models/car-listing.model';
+import { FUEL_TYPES, CAR_LISTING_BOUNDS, maxYear } from '../../models/car-listing.model';
 
 @Component({
   selector: 'app-listing-create-page',
@@ -25,13 +25,37 @@ export class ListingCreatePage {
 
   ngOnInit() {
     this.form = this.fb.group({
-      brand: ['', Validators.required],
-      model: ['', Validators.required],
-      year: ['', Validators.required],
-      price: ['', Validators.required],
-      mileage: ['', Validators.required],
+      brand: ['', [Validators.required, Validators.maxLength(CAR_LISTING_BOUNDS.brand.maxLength)]],
+      model: ['', [Validators.required, Validators.maxLength(CAR_LISTING_BOUNDS.model.maxLength)]],
+      year: [
+        '',
+        [
+          Validators.required,
+          Validators.min(CAR_LISTING_BOUNDS.year.min),
+          Validators.max(maxYear()),
+        ],
+      ],
+      price: [
+        '',
+        [
+          Validators.required,
+          Validators.min(CAR_LISTING_BOUNDS.price.min),
+          Validators.max(CAR_LISTING_BOUNDS.price.max),
+        ],
+      ],
+      mileage: [
+        '',
+        [
+          Validators.required,
+          Validators.min(CAR_LISTING_BOUNDS.mileage.min),
+          Validators.max(CAR_LISTING_BOUNDS.mileage.max),
+        ],
+      ],
       fuel_type: ['', Validators.required],
-      description: ['', Validators.required],
+      description: [
+        '',
+        [Validators.required, Validators.maxLength(CAR_LISTING_BOUNDS.description.maxLength)],
+      ],
     });
   }
 
@@ -53,5 +77,17 @@ export class ListingCreatePage {
 
   goBack() {
     this.location.back();
+  }
+
+  errorFor(field: string): string | null {
+    const control = this.form.get(field);
+    if (!control || control.valid || !control.touched) return null;
+
+    const errors = control.errors ?? {};
+    if (errors['required']) return 'A mező kitöltése kötelező.';
+    if (errors['maxlength']) return `Legfeljebb ${errors['maxlength'].requiredLength} karakter.`;
+    if (errors['min']) return `Nem lehet kevesebb, mint ${errors['min'].min}.`;
+    if (errors['max']) return `Nem lehet több, mint ${errors['max'].max}.`;
+    return null;
   }
 }

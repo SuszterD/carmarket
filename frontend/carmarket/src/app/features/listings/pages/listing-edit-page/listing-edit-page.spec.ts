@@ -65,4 +65,20 @@ describe('ListingEditPage', () => {
 
     expect(routerMock.navigate).toHaveBeenCalledWith(['/listings']);
   });
+
+  it('should show a required message when a field is emptied and submitted', () => {
+    listingServiceMock.getListing.mockReturnValue(of(listingData));
+    fixture.detectChanges();
+
+    component.form.get('brand')!.setValue('');
+    component.submit();
+    fixture.detectChanges();
+
+    const brandError = fixture.nativeElement
+      .querySelector('#brand')
+      .closest('.form-field')
+      .querySelector('.error-message');
+
+    expect(brandError?.textContent).toContain('kötelező');
+  });
 });

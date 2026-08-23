@@ -22,6 +22,19 @@ export const SORT_PRESETS: SortPreset[] = [
 
 export const DEFAULT_SORT_PRESET = 'created_at_desc';
 
+export function maxYear(): number {
+  return new Date().getFullYear() + 1;
+}
+
+export const CAR_LISTING_BOUNDS = {
+  brand: { maxLength: 50 },
+  model: { maxLength: 50 },
+  year: { min: 1900 },
+  price: { min: 0, max: 2_000_000_000 },
+  mileage: { min: 0, max: 10_000_000 },
+  description: { maxLength: 500 },
+};
+
 export interface CarListing {
   id: string;
   user_id: string;

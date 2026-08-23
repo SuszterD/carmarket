@@ -52,6 +52,39 @@ describe('ListingCreatePage', () => {
     expect(listingServiceMock.createListing).not.toHaveBeenCalled();
   });
 
+  it('should show a required message on the brand field after submitting an empty form', () => {
+    component.submit();
+    fixture.detectChanges();
+
+    const brandError = fixture.nativeElement
+      .querySelector('#brand')
+      .closest('.form-field')
+      .querySelector('.error-message');
+
+    expect(brandError?.textContent).toContain('kötelező');
+  });
+
+  it('should show a max length message when brand exceeds 50 characters', () => {
+    component.form.get('brand')!.setValue('a'.repeat(51));
+    component.form.get('brand')!.markAsTouched();
+    fixture.detectChanges();
+
+    const brandError = fixture.nativeElement
+      .querySelector('#brand')
+      .closest('.form-field')
+      .querySelector('.error-message');
+
+    expect(brandError?.textContent).toContain('Legfeljebb 50 karakter');
+  });
+
+  it('should show no error message when the form is valid', () => {
+    component.form.setValue(formData);
+    component.form.markAllAsTouched();
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelectorAll('.error-message').length).toBe(0);
+  });
+
   it('should create listing and navigate to /listings', () => {
     component.form.setValue(formData);
     listingServiceMock.createListing.mockReturnValue(
