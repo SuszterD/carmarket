@@ -3,22 +3,26 @@
 
   <form [formGroup]="form" (ngSubmit)="submit()">
     <div class="form-grid">
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('username')">
         <label for="username">Felhasználónév</label>
         <input id="username" formControlName="username" placeholder="Felhasználónév" />
+        @if (errorFor('username'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
-      <div class="form-field">
+      <div class="form-field" [class.form-field--error]="errorFor('password')">
         <label for="password">Jelszó</label>
         <input id="password" type="password" formControlName="password" placeholder="Jelszó" />
+        @if (errorFor('password'); as message) {
+          <p class="error-message error-message--field">{{ message }}</p>
+        }
       </div>
     </div>
-
     @if (errorMessage()) {
       <p class="error-message">{{ errorMessage() }}</p>
     }
-
     <div class="form-actions">
-      <button type="submit" [disabled]="form.invalid">Bejelentkezés</button>
+      <button type="submit">Bejelentkezés</button>
     </div>
   </form>
   <p class="auth-footer">

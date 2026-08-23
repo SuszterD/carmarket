@@ -43,4 +43,13 @@ export class LoginPage {
       },
     });
   }
+
+  errorFor(field: string): string | null {
+    const control = this.form.get(field);
+    if (!control || control.valid || !control.touched) return null;
+
+    const errors = control.errors ?? {};
+    if (errors['required']) return 'A mező kitöltése kötelező.';
+    return null;
+  }
 }

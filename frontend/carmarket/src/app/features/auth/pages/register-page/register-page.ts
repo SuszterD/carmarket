@@ -50,4 +50,16 @@ export class RegisterPage {
         },
       });
   }
+
+  errorFor(field: string): string | null {
+    const control = this.form.get(field);
+    if (!control || control.valid || !control.touched) return null;
+
+    const errors = control.errors ?? {};
+    if (errors['required']) return 'A mező kitöltése kötelező.';
+    if (errors['email']) return 'Érvénytelen email cím.';
+    if (errors['minlength']) return `Legalább ${errors['minlength'].requiredLength} karakter.`;
+    if (errors['maxlength']) return `Legfeljebb ${errors['maxlength'].requiredLength} karakter.`;
+    return null;
+  }
 }
