@@ -21,9 +21,9 @@ export class RegisterPage {
 
   ngOnInit() {
     this.form = this.fb.group({
-      username: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      username: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(12)]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(72)]],
     });
   }
 
