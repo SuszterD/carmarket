@@ -14,6 +14,12 @@ services:
     volumes:
       - "postgres_data:/var/lib/postgresql/data"
 
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d carmarket"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   backend:
     build: ./backend
     container_name: carmarket_backend
@@ -27,11 +33,32 @@ services:
         max-size: "10m"
         max-file: "3"
 
-    env_file:
-      - ./backend/.env.docker
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/carmarket
+      SECRET_KEY: ab98a7ba8029c21147b98c2cddcb22e2820e3925e306f1fa0c44e7f884519552
 
     depends_on:
-      - postgres
+      postgres:
+        condition: service_healthy
+
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  seed:
+    build: ./backend
+    container_name: carmarket_seed
+    entrypoint: ["python", "-m", "scripts.seed_db"]
+
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/carmarket
+      SECRET_KEY: ab98a7ba8029c21147b98c2cddcb22e2820e3925e306f1fa0c44e7f884519552
+
+    depends_on:
+      backend:
+        condition: service_healthy
 
   frontend:
     build: ./frontend/carmarket
@@ -41,7 +68,8 @@ services:
       - "4200:80"
 
     depends_on:
-      - backend
+      backend:
+        condition: service_healthy
 
 volumes:
   postgres_data:
