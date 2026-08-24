@@ -10,10 +10,11 @@ random.seed(42)
 
 SEED_EPOCH = datetime(2026, 1, 1, tzinfo=timezone.utc)
 
-DEMO_USERS = {
+DEMO_USERS = [
     ("demo_user", "demo@example.com", "demo123"),
     ("other_user", "other@example.com", "other123"),
-}
+]
+
 
 brands_models = {
     "BMW": ["320", "X5", "M3"],
