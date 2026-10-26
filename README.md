@@ -7,9 +7,9 @@ AWS EC2 through GitHub Actions.
 It started as my BSc thesis project and has since been rebuilt — authentication, migrations,
 search and pagination, the frontend design, and the CI/CD pipeline.
 
-Live demo → http://16.16.55.190/listings
+Run it locally with one command: see [Running it with Docker](#running-it-with-docker).
 
-Sign in with the seeded demo account: **`demo_user`** / **`demo123`** to see the owner-only controls. Editing and deleting
+When running locally, sign in with the seeded demo account: **`demo_user`** / **`demo123`** to see the owner-only controls. Editing and deleting
 are hidden — and rejected by the API — on listings you don't own, so the demo account owns about
 half the seeded listings.
 
